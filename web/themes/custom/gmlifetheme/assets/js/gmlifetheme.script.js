@@ -18094,63 +18094,65 @@ __webpack_require__.r(__webpack_exports__);
 (function ($, Drupal) {
   Drupal.behaviors.myModuleBehavior = {
     attach: function attach(context, settings) {
-      console.log(" ");
-      console.log(" ");
-      console.log("  %cby:%cGoMaStudio.net %c %c %c", "border-left:10px solid #de4b3a; background: #444; color: #eb7f3b; padding: 10px; border-radius:0px", "color: orange; background: #444; color: #fff; padding:10px 10px 10px 0; border-right:10px solid #2a9a88; border-radius:0px; ", "background: #444; border-left:5px solid #e4683a; padding:10px;  border-radius:20px", "border-left:5px solid #e24e3b; padding:10px;background: #444;", "border-left:5px solid #e4683a; padding:10px;background: #444; border-radius:20px");
-      console.log(" ");
-      console.log(" ");
-      $("#bt-hambuguer").click(function () {
-        $(this).toggleClass('is-active');
-      });
+      // $('input.myCustomBehavior', context).once('myCustomBehavior').each(function () {
+      // Apply the myCustomBehaviour effect to the elements only once.
+      $(document, context).once('myCustomBehavior').each(function () {
+        //console.log("Start IDS APP v0.1! - one time");
+        console.log(" ");
+        console.log(" ");
+        console.log("  %cby:%cGoMaStudio.net %c %c %c", "border-left:10px solid #de4b3a; background: #444; color: #eb7f3b; padding: 10px; border-radius:0px", "color: orange; background: #444; color: #fff; padding:10px 10px 10px 0; border-right:10px solid #2a9a88; border-radius:0px; ", "background: #444; border-left:5px solid #e4683a; padding:10px;  border-radius:20px", "border-left:5px solid #e24e3b; padding:10px;background: #444;", "border-left:5px solid #e4683a; padding:10px;background: #444; border-radius:20px");
+        console.log(" ");
+        console.log(" ");
+        $("#bt-hambuguer").click(function () {
+          $(this).toggleClass('is-active');
+        });
 
-      function confirmaURL() {
-        var finalPath = window.location.href;
-        abrePorDefeitoPag(finalPath);
-      }
-
-      function abrePorDefeitoPag(qualModal) {
-        //confirmar a path para ver se vale a pena carregar o modal
-        if (qualModal.indexOf("?") !== -1) {
-          var myPath = qualModal.split("?");
-          var finalPathID = getParameterByName('id');
-          var finalPath = '#' + finalPathID;
-          var alvoAbrir = finalPath.replace("heading", "collapse");
-          $(alvoAbrir).toggleClass("show");
-          setTimeout(function () {
-            var disTopY = $(finalPath).offset().top - 120; //console.log("disTopY = ",disTopY);
-
-            $("html,body").animate({
-              scrollTop: disTopY
-            }, 600);
-          }, 500);
+        function confirmaURL() {
+          var finalPath = window.location.href;
+          abrePorDefeitoPag(finalPath);
         }
-      }
 
-      function getParameterByName(name) {
-        var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window.location.href;
-        name = name.replace(/[\[\]]/g, '\\$&');
-        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-      }
+        function abrePorDefeitoPag(qualModal) {
+          //confirmar a path para ver se vale a pena carregar o modal
+          if (qualModal.indexOf("?") !== -1) {
+            var myPath = qualModal.split("?");
+            var finalPathID = getParameterByName('id');
+            var finalPath = '#' + finalPathID;
+            var alvoAbrir = finalPath.replace("heading", "collapse");
+            $(alvoAbrir).toggleClass("show");
+            setTimeout(function () {
+              var disTopY = $(finalPath).offset().top - 120; //console.log("disTopY = ",disTopY);
 
-      function confirmaLANG() {
-        $("[lang=en]").attr("lang", "pt-pt"); //console.log("lang = "+ $( "[lang=en]" ));
-      }
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600);
+            }, 500);
+          }
+        }
 
-      function removeLoading() {
-        //gsap.to(".loader", {scale: 0, duration: .175});
-        //gsap.to(".fundo-loader", {disTopY: -100%, duration: .275});
-        $(".fundo-loader").addClass('loaded');
-      }
+        function getParameterByName(name) {
+          var url = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : window.location.href;
+          name = name.replace(/[\[\]]/g, '\\$&');
+          var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+              results = regex.exec(url);
+          if (!results) return null;
+          if (!results[2]) return '';
+          return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
 
-      $(document).ready(function () {
-        confirmaURL();
-        confirmaLANG();
+        function removeLoading() {
+          //gsap.to(".loader", {scale: 0, duration: .175});
+          //gsap.to(".fundo-loader", {disTopY: -100%, duration: .275});
+          $(".fundo-loader").addClass('loaded');
+        }
+
+        function addDataSwipperSlidesElements() {
+          $(".slider-home .swiper-slide h4").attr("data-swiper-parallax", "-300");
+        }
+
         removeLoading();
-      });
+        addDataSwipperSlidesElements();
+      }); //end once
     }
   };
 })(jQuery, Drupal);
@@ -18175,8 +18177,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/mj/web/themes/custom/gmlifetheme/src/js/gmlifetheme.script.js */"./src/js/gmlifetheme.script.js");
-module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/mj/web/themes/custom/gmlifetheme/src/sass/gmlifetheme.style.scss */"./src/sass/gmlifetheme.style.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/idsweb/ids/web/themes/custom/gmlifetheme/src/js/gmlifetheme.script.js */"./src/js/gmlifetheme.script.js");
+module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/idsweb/ids/web/themes/custom/gmlifetheme/src/sass/gmlifetheme.style.scss */"./src/sass/gmlifetheme.style.scss");
 
 
 /***/ })

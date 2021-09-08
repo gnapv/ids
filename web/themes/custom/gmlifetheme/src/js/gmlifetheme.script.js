@@ -1,13 +1,19 @@
 import 'popper.js';
 import 'bootstrap';
 
+
+
+
 (function ($, Drupal) {
   Drupal.behaviors.myModuleBehavior = {
     attach: function (context, settings) {
-
-      $('input.myCustomBehavior', context).once('myCustomBehavior').each(function () {
+		
+     // $('input.myCustomBehavior', context).once('myCustomBehavior').each(function () {
         // Apply the myCustomBehaviour effect to the elements only once.
-     
+
+		$(document, context).once('myCustomBehavior').each(function () {
+
+			//console.log("Start IDS APP v0.1! - one time");
 
 
 
@@ -62,25 +68,20 @@ import 'bootstrap';
 	    return decodeURIComponent(results[2].replace(/\+/g, ' '));
 	}
 
-	function confirmaLANG() {
-		$( "[lang=en]" ).attr("lang","pt-pt");
-		//console.log("lang = "+ $( "[lang=en]" ));
-		
-	}
 
 	function removeLoading() {
 		//gsap.to(".loader", {scale: 0, duration: .175});
 		//gsap.to(".fundo-loader", {disTopY: -100%, duration: .275});
-		
 		  $(".fundo-loader").addClass('loaded');
-
+	}
+	
+	function addDataSwipperSlidesElements () {
+		$(".slider-home .swiper-slide h4").attr("data-swiper-parallax","-300");
 	}
 
-	//$(document).ready(function(){
-		confirmaURL();
-		confirmaLANG();
-		removeLoading();
-	//});
+	removeLoading();
+	addDataSwipperSlidesElements ()
+
 
 
 

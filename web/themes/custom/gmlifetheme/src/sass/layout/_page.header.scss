@@ -3,26 +3,28 @@
 .navbar {
 
     min-height: 80px;
-    background-color: #fff;
-    box-shadow: 0px 1px 6px rgb(0 0 0 / 30%);
+    background-color: transparent;
+    // box-shadow: 0px 1px 6px rgb(0 0 0 / 30%);
     border-bottom-right-radius: 12% 15px;
     border-bottom-left-radius: 12% 15px;
 
+
+
     .navbar-brand img {
-        width: 100%;
+        width: 80%;
         height: auto;
     }
 
     .navbar-nav .nav-link   {
         font-weight: 500;
         font-size: rem(18); // or rem(18px)
-        color: $primary;
+        color: $white;
         margin-right: 15px;
         transition: all .175s ease-out;
         border-top: 2px solid transparent;
     }
     .nav-link:hover, .nav-link.is-active  {
-        color: $dark !important;
+        color: $primary !important;
         border-top: 2px solid $primary;
         transform: translate(0,2px);
         transition-delay: 0s;
@@ -110,12 +112,42 @@
     transition: top .1s ease-in .25s,opacity .1s ease-in;
 }
 
-
-
 .main-content {
     position: relative;
-    top: -14px;
+    top: -130px;
 }
+
+//  SLIDER HOME
+
+.slider-home h4 {
+    padding-left: 33px;
+}
+
+.slider-txt-1 {
+    border-left: 10px solid $primary;
+    padding-left: 20px;
+}
+
+.scroll-down {
+    position: absolute;
+    top: calc(100vh - 70px);
+    z-index: 10000;
+    border: none;
+    background: transparent;
+    color: #fff;
+}
+
+.sd-icon {
+    position: absolute;
+    width: 50px;
+    height: 28px;
+    right: 40px;
+    bottom: 35px;
+    background: url("data:image/svg+xml,%3Csvg width='50px' height='28px' viewBox='0 0 50 28' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3C/defs%3E%3Cg id='Welcome' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Desktop-HD' transform='translate(-615.000000, -788.000000)' fill='%23EF453E'%3E%3Cg id='scrollDown' transform='translate(588.000000, 788.000000)'%3E%3Cpolygon id='scrolldown-bt' points='72.6230798 0 51.9337149 25.6021772 31.24435 0 27 0 49.8111892 27.8095759 54.0555392 27.8095759 77 0'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+
+}
+
+
 
 // A clinica
 .paragraph--id--1164 {

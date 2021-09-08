@@ -366,3 +366,18 @@
 .text-blur-out {
 	animation: text-blur-out 1.2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
 }
+
+
+/**
+ * ----------------------------------------
+ * animation MOvement UI
+ * ----------------------------------------
+ */
+
+ @keyframes tilt-up-down {
+  0% {transform: translateY(0px);}
+  100% {transform: translateY(-7px);}
+}
+.tilt-up-down {
+	animation: tilt-up-down 0.55s cubic-bezier(0.550, 0.085, 0.680, 0.530) both infinite alternate;
+}
