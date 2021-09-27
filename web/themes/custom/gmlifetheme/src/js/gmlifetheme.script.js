@@ -11,6 +11,7 @@ import 'bootstrap';
      // $('input.myCustomBehavior', context).once('myCustomBehavior').each(function () {
         // Apply the myCustomBehaviour effect to the elements only once.
 
+
 		$(document, context).once('myCustomBehavior').each(function () {
 
 			//console.log("Start IDS APP v0.1! - one time");
@@ -79,8 +80,17 @@ import 'bootstrap';
 		$(".slider-home .swiper-slide h4").attr("data-swiper-parallax","-300");
 	}
 
+	function removeBottomSpace() {
+		let pageH = $( '.page' ).height();
+		pageH -= 130;
+		//console.log("pageH = "+pageH);
+
+		$( '.page' ).height(pageH);
+	}
+
 	removeLoading();
 	addDataSwipperSlidesElements ()
+	removeBottomSpace();
 
 
 

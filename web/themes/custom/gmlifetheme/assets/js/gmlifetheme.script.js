@@ -18150,8 +18150,16 @@ __webpack_require__.r(__webpack_exports__);
           $(".slider-home .swiper-slide h4").attr("data-swiper-parallax", "-300");
         }
 
+        function removeBottomSpace() {
+          var pageH = $('.page').height();
+          pageH -= 130; //console.log("pageH = "+pageH);
+
+          $('.page').height(pageH);
+        }
+
         removeLoading();
         addDataSwipperSlidesElements();
+        removeBottomSpace();
       }); //end once
     }
   };
@@ -18177,8 +18185,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/idsweb/ids/web/themes/custom/gmlifetheme/src/js/gmlifetheme.script.js */"./src/js/gmlifetheme.script.js");
-module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/idsweb/ids/web/themes/custom/gmlifetheme/src/sass/gmlifetheme.style.scss */"./src/sass/gmlifetheme.style.scss");
+__webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/ids/web/themes/custom/gmlifetheme/src/js/gmlifetheme.script.js */"./src/js/gmlifetheme.script.js");
+module.exports = __webpack_require__(/*! /Applications/XAMPP/xamppfiles/htdocs/ids/web/themes/custom/gmlifetheme/src/sass/gmlifetheme.style.scss */"./src/sass/gmlifetheme.style.scss");
 
 
 /***/ })

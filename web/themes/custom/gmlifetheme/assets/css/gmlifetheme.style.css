@@ -13268,6 +13268,28 @@ a.text-dark:hover, a.text-dark:focus {
      object-fit: cover;
 }
 
+.title-separator {
+  position: relative;
+}
+.title-separator::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 35px;
+  background-color: #EF453E;
+  transform: rotate(-10deg) translate(40px, 7px);
+  transform-origin: center;
+}
+.title-separator::before {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 35px;
+  background-color: #EF453E;
+  transform: rotate(30deg) translate(-40px, 24px);
+  transform-origin: center;
+}
+
 .accelerated {
   transform: transale3d(0, 0, 0);
   transition: all 1s;
@@ -13935,7 +13957,7 @@ body {
 
 .main-content {
   position: relative;
-  top: -130px;
+  top: -135px;
 }
 
 .slider-home h4 {
@@ -14078,45 +14100,31 @@ body {
     width: 75%;
   }
 }
-.forma-trabalhar img {
-  width: 35%;
-}
+@media (max-width: 991.98px) {
+  .title-separator::after {
+    right: 10px;
+    top: 0;
+  }
 
-@media (min-width: 576px) {
-  .forma-trabalhar img {
-    width: 55%;
+  .limit-h img {
+    height: 50vh;
   }
 }
-@media (min-width: 992px) {
-  .forma-trabalhar img {
-    width: 65%;
+@media (max-width: 767.98px) {
+  .swiper-button-next, .swiper-button-prev {
+    display: none !important;
   }
 }
-.destaque-clinica p {
-  font-size: calc(0.775rem + .6vw);
+@media (max-width: 713px) {
+  .slider-txt-1 {
+    font-size: calc(1.575rem + 1.9vw) !important;
+  }
 }
-
-.marcacoesbt a {
-  text-decoration: none;
+@media (max-width: 500px) {
+  .slider-txt-1 {
+    font-size: calc(1.575rem ) !important;
+  }
 }
-
-.destaque-pacientes hr {
-  max-width: 200px;
-  border-top: 5px solid #fff;
-}
-.destaque-pacientes span a {
-  color: white;
-}
-.destaque-pacientes span a:hover {
-  color: #003A5D;
-}
-.destaque-pacientes a {
-  color: #EF453E;
-}
-.destaque-pacientes a:hover {
-  color: #003A5D;
-}
-
 .fundo-verde-meia-col-r {
   position: absolute;
   width: 1000px;

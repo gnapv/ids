@@ -21,6 +21,29 @@
   }
 }
 
+.title-separator {
+  position: relative;
+  &::after{
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 35px;
+    background-color: $primary;
+    transform: rotate(-10deg) translate(40px, 7px);
+    transform-origin: center;
+    
+  }
+  &::before{
+    content: "";
+    position: absolute;
+    width: 3px;
+    height: 35px;
+    background-color: $primary;
+    transform: rotate(30deg) translate(-40px,24px);
+    transform-origin: center;
+  }
+}
+
 .accelerated {
   -webkit-transform: transale3d(0,0,0);
   -moz-transform: transale3d(0,0,0);

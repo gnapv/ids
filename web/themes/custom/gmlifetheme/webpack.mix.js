@@ -7,7 +7,7 @@
  | for your application. See https://github.com/JeffreyWay/laravel-mix.
  | Alterar a proxy para o caminho onde se localiza o site
  */
-const proxy = 'http://local.idsweb.com/';
+const proxy = 'http://local.ids.com/';
 const mix = require('laravel-mix');
 
 /*
