@@ -22,3 +22,5 @@ function gmlifetheme_preprocess_paragraph__card_deck(&$variables) {
   $variables['atrributes']['class'][]= 'card-deck';
 
 }
+
+

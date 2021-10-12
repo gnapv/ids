@@ -2,12 +2,11 @@
 // -----------------------------------------------------------------------------
 .navbar {
 
+    position: absolute;
+    top: 0;
+    width: 100%;
     min-height: 80px;
     background-color: transparent;
-    // box-shadow: 0px 1px 6px rgb(0 0 0 / 30%);
-    border-bottom-right-radius: 12% 15px;
-    border-bottom-left-radius: 12% 15px;
-
 
 
     .navbar-brand img {
@@ -114,7 +113,7 @@
 
 .main-content {
     position: relative;
-    top: -135px;
+    top: -17px;
 }
 
 //  SLIDER HOME
@@ -146,126 +145,6 @@
     background: url("data:image/svg+xml,%3Csvg width='50px' height='28px' viewBox='0 0 50 28' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3C/defs%3E%3Cg id='Welcome' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cg id='Desktop-HD' transform='translate(-615.000000, -788.000000)' fill='%23EF453E'%3E%3Cg id='scrollDown' transform='translate(588.000000, 788.000000)'%3E%3Cpolygon id='scrolldown-bt' points='72.6230798 0 51.9337149 25.6021772 31.24435 0 27 0 49.8111892 27.8095759 54.0555392 27.8095759 77 0'%3E%3C/polygon%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 
 }
-
-
-
-// A clinica
-.paragraph--id--1164 {
-    border-top-right-radius: 12% 50px;
-    border-top-left-radius: 12% 50px;
-    position: relative;
-    bottom: 47px;
-    background-color: $white;
-}
-
-
-
-
-
-    .marcacoesbt {
-        position: relative;
-        display: inline-block;
-        font-size: rem(19);
-        color: $light;
-        background: white;
-        border-radius: 30px;
-        text-align: left;
-        cursor: pointer;
-
-        p {
-            margin: 0;
-            padding: 15px;
-        }
-        
-        .menina-call-icon{
-            position: absolute;
-            background: url('/themes/custom/gmlifetheme/img/svg/menina_call.svg');
-            width: 37px;
-            height: 38px;
-            top: 9px;
-            left: 23px;
-            
-
-        }
-
-        strong {
-            display: block;
-            padding-left: 60px;
-            padding-right: 20px;
-        }
-    }
-
-
-    @media screen and (max-width: 645px) {  
-       .hero-home .marcacoesbt  .menina-call-icon {
-            top: 24% !important;
-
-        }
-    }
-    @media screen and (max-width: 625px) {  
-      .hero-home .marcacoesbt   .menina-call-icon {
-            top: 32% !important;
-        }
-    }
-     @media screen and (min-width: 768px) and (max-width: 992px) {  
-       .hero-home .marcacoesbt  .menina-call-icon {
-            top: 24% !important;
-        }
-    }
-
-
-
-    .destaque-pacientes .marcacoesbt {
-        position: relative;
-        display: inline-block;
-        font-size: rem(19);
-        color: $light;
-        background: white;
-        border-radius: 30px;
-        text-align: left;
-        cursor: pointer;
-
-        p {
-            margin: 0;
-            padding: 15px;
-        }
-        
-        .menina-call-icon{
-            position: absolute;
-            background: url('/themes/custom/gmlifetheme/img/svg/menina_call.svg');
-            width: 37px;
-            height: 38px;
-            top: 9px;
-            left: 23px;
-            
-
-        }
-
-        strong {
-            display: block;
-            padding-left: 60px;
-            padding-right: 20px;
-        }
-    }
-
-
-    @media screen and (max-width: 390px) {  
-       .destaque-pacientes .marcacoesbt  .menina-call-icon {
-            top: 24% !important;
-        }
-    }
-
-
-    @include media-breakpoint-up(lg) {
-        .navbar {
-            min-height: 100px;
-        }
-        .navbar-toggler {
-         display: none;
-        }
-    }
-
-
 
 
     @include media-breakpoint-down(md) {

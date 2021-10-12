@@ -1,0 +1,23 @@
+
+
+.voltar-btn {
+    position: absolute;
+    top: 150px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 90px;
+    color: #ebebeb !important;
+    display: block;
+    z-index: 10000;
+
+    .voltar-icon{
+        transition:all .333s cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+    &:hover .voltar-icon {
+        color: $dark !important;
+    }
+    &:hover strong {
+        color: $primary !important;
+    }
+}

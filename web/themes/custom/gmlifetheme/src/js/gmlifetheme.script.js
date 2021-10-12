@@ -1,7 +1,9 @@
 import 'popper.js';
 import 'bootstrap';
+//import "gsap";
+//import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
-
+//gsap.registerPlugin(ScrollToPlugin);
 
 
 (function ($, Drupal) {
@@ -25,7 +27,6 @@ import 'bootstrap';
 
   	console.log(" ");
   	console.log(" ");
-
 
 
     	$( "#bt-hambuguer" ).click(function() {
@@ -80,17 +81,141 @@ import 'bootstrap';
 		$(".slider-home .swiper-slide h4").attr("data-swiper-parallax","-300");
 	}
 
-	function removeBottomSpace() {
-		let pageH = $( '.page' ).height();
-		pageH -= 130;
-		//console.log("pageH = "+pageH);
+	function goDown() {
+		
+		let linkGoDown = document.getElementsByClassName("scroll-down")[0];
+		let homePage = document.getElementsByClassName("page-node-14")[0];
+		let missaoPage = document.getElementsByClassName("page-node-15")[0];
+		
+		
 
-		$( '.page' ).height(pageH);
+
+		if(linkGoDown != null && homePage != null ){
+			linkGoDown.onclick = function () {
+				let disTopY = $('.paragraph--id--1529').offset().top - 40;
+				$("html,body").animate({ scrollTop: disTopY }, 600, "swing");
+				//console.log(com.greensock.plugins.ScrollToPlugin.version); 
+				//gsap.to(window, {duration: 2, scrollTo:'.paragraph--id--1529'});
+			}
+		} else  if(linkGoDown != null && missaoPage != null ){
+			linkGoDown.onclick = function () {
+				let disTopY = $('.missao').offset().top - 40;
+				$("html,body").animate({ scrollTop: disTopY }, 600, "swing");
+			}
+		}
+		
 	}
 
+	function goDownCCardsSol() {
+
+		let linkSolucoes1 = document.getElementsByClassName("its-1")[0];
+		let linkSolucoes2 = document.getElementsByClassName("its-2")[0];
+		let linkSolucoes3 = document.getElementsByClassName("its-3")[0];
+
+		if(linkSolucoes1 != null ){
+
+			linkSolucoes1.onclick = function () {
+				let disTopY = $('.sol-card:nth-child(1)').offset().top - 90;
+				console.log("disTopY = ",disTopY);
+				$("html,body").animate({ scrollTop: disTopY }, 600);
+			}
+			linkSolucoes2.onclick = function () {
+				let disTopY = $('.sol-card:nth-child(2)').offset().top - 90;
+				console.log("disTopY = ",disTopY);
+				$("html,body").animate({ scrollTop: disTopY }, 600);
+			}
+			linkSolucoes3.onclick = function () {
+				let disTopY = $('.sol-card:nth-child(3)').offset().top - 90;
+				console.log("disTopY = ",disTopY);
+				$("html,body").animate({ scrollTop: disTopY }, 600);
+			}
+		}
+	}
+
+	function mudaNav() {
+		// confirma sacos
+		let laundryPage = document.getElementsByClassName("page-node-17")[0];
+		let dryseatPage = document.getElementsByClassName("page-node-18")[0];
+		let uvRobotPage = document.getElementsByClassName("page-node-19")[0];
+
+		if(laundryPage != null || dryseatPage != null || uvRobotPage != null){
+			let logoImg = document.getElementsByClassName("navbar-brand")[0];
+			let logoFinal = logoImg.getElementsByTagName('img')[0];
+			logoFinal.setAttribute('src','/sites/default/files/2021-10/logo_ids_positivo.svg');
+		}
+	}
+
+
+
+	function corrigirModal() {
+		//
+		//Fix Modal News Position
+		//
+		  $( '.modal' ).each(function( index ) {
+			let thisOne  = $(this).remove();
+			let myDivOnde = $( 'body' );
+			thisOne.appendTo(myDivOnde);
+		  });
+
+		$('.btn-modal[data-target|="#modal-1825"]').on('click', function (e) {
+				// alterar a select por defeito
+				let finalPath = window.location.href;
+				console.log("finalPath = "+finalPath);
+				if (finalPath.indexOf("uv-robot") !== -1) {
+					// alterar a select por defeito
+					$("#edit-produto option[value=UV-Robot]").attr('selected', 'selected');
+				} else if (finalPath.indexOf("dryseat") !== -1) {
+					$("#edit-produto option[value=DrySeat]").attr('selected', 'selected');
+				}else {
+					$("#edit-produto option[value=Laundry-Bags]").attr('selected', 'selected');
+					
+				}
+		})
+	}
+
+	function sliderHomeRandomImg() {
+		//page-node-14
+		let imgFundoHomePage = ['/sites/default/files/2021-10/istockphoto-1215020405-612x612.jpeg',
+								'/sites/default/files/2021-10/istockphoto-488377600-1024x1024.jpeg',
+								'/sites/default/files/2021-10/istockphoto-1217126540-1024x1024.jpeg'];
+
+		let rdmImage = Math.round(Math.random()*2);
+
+		let bgImageHomeSlider = document.querySelector('.parallax-bg');
+		bgImageHomeSlider.style.removeProperty("background-image");
+		bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("'+ imgFundoHomePage[rdmImage] +'")';
+  
+		console.log('bgImageHomeSlider - ',bgImageHomeSlider);
+		console.log("imgFundoHomePage[rdmImage]  - ",imgFundoHomePage[rdmImage] );
+
+		startParallax();
+	}
+
+
+	function startParallax(){
+		gsap.to(".parallax-bg", {
+			scrollTrigger: {
+			  scrub: true
+			}, 
+			y: (i, target) => -ScrollTrigger.maxScroll(window) * -0.6,
+			ease: "none"
+		  });
+	}
+
+	//setTimeout(sliderHomeRandomImg,10);
+	
+	sliderHomeRandomImg();
+
+
 	removeLoading();
+	corrigirModal();
 	addDataSwipperSlidesElements ()
-	removeBottomSpace();
+	goDownCCardsSol();
+	goDown();
+	mudaNav();
+
+
+	//document.getElementsByTagName("BODY")[0].onresize = function() {removeBottomSpace()};
 
 
 

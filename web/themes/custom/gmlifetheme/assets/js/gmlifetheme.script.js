@@ -18089,7 +18089,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_1__);
 
-
+ //import "gsap";
+//import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+//gsap.registerPlugin(ScrollToPlugin);
 
 (function ($, Drupal) {
   Drupal.behaviors.myModuleBehavior = {
@@ -18150,16 +18152,131 @@ __webpack_require__.r(__webpack_exports__);
           $(".slider-home .swiper-slide h4").attr("data-swiper-parallax", "-300");
         }
 
-        function removeBottomSpace() {
-          var pageH = $('.page').height();
-          pageH -= 130; //console.log("pageH = "+pageH);
+        function goDown() {
+          var linkGoDown = document.getElementsByClassName("scroll-down")[0];
+          var homePage = document.getElementsByClassName("page-node-14")[0];
+          var missaoPage = document.getElementsByClassName("page-node-15")[0];
 
-          $('.page').height(pageH);
+          if (linkGoDown != null && homePage != null) {
+            linkGoDown.onclick = function () {
+              var disTopY = $('.paragraph--id--1529').offset().top - 40;
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600, "swing"); //console.log(com.greensock.plugins.ScrollToPlugin.version); 
+              //gsap.to(window, {duration: 2, scrollTo:'.paragraph--id--1529'});
+            };
+          } else if (linkGoDown != null && missaoPage != null) {
+            linkGoDown.onclick = function () {
+              var disTopY = $('.missao').offset().top - 40;
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600, "swing");
+            };
+          }
         }
 
+        function goDownCCardsSol() {
+          var linkSolucoes1 = document.getElementsByClassName("its-1")[0];
+          var linkSolucoes2 = document.getElementsByClassName("its-2")[0];
+          var linkSolucoes3 = document.getElementsByClassName("its-3")[0];
+
+          if (linkSolucoes1 != null) {
+            linkSolucoes1.onclick = function () {
+              var disTopY = $('.sol-card:nth-child(1)').offset().top - 90;
+              console.log("disTopY = ", disTopY);
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600);
+            };
+
+            linkSolucoes2.onclick = function () {
+              var disTopY = $('.sol-card:nth-child(2)').offset().top - 90;
+              console.log("disTopY = ", disTopY);
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600);
+            };
+
+            linkSolucoes3.onclick = function () {
+              var disTopY = $('.sol-card:nth-child(3)').offset().top - 90;
+              console.log("disTopY = ", disTopY);
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600);
+            };
+          }
+        }
+
+        function mudaNav() {
+          // confirma sacos
+          var laundryPage = document.getElementsByClassName("page-node-17")[0];
+          var dryseatPage = document.getElementsByClassName("page-node-18")[0];
+          var uvRobotPage = document.getElementsByClassName("page-node-19")[0];
+
+          if (laundryPage != null || dryseatPage != null || uvRobotPage != null) {
+            var logoImg = document.getElementsByClassName("navbar-brand")[0];
+            var logoFinal = logoImg.getElementsByTagName('img')[0];
+            logoFinal.setAttribute('src', '/sites/default/files/2021-10/logo_ids_positivo.svg');
+          }
+        }
+
+        function corrigirModal() {
+          //
+          //Fix Modal News Position
+          //
+          $('.modal').each(function (index) {
+            var thisOne = $(this).remove();
+            var myDivOnde = $('body');
+            thisOne.appendTo(myDivOnde);
+          });
+          $('.btn-modal[data-target|="#modal-1825"]').on('click', function (e) {
+            // alterar a select por defeito
+            var finalPath = window.location.href;
+            console.log("finalPath = " + finalPath);
+
+            if (finalPath.indexOf("uv-robot") !== -1) {
+              // alterar a select por defeito
+              $("#edit-produto option[value=UV-Robot]").attr('selected', 'selected');
+            } else if (finalPath.indexOf("dryseat") !== -1) {
+              $("#edit-produto option[value=DrySeat]").attr('selected', 'selected');
+            } else {
+              $("#edit-produto option[value=Laundry-Bags]").attr('selected', 'selected');
+            }
+          });
+        }
+
+        function sliderHomeRandomImg() {
+          //page-node-14
+          var imgFundoHomePage = ['/sites/default/files/2021-10/istockphoto-1215020405-612x612.jpeg', '/sites/default/files/2021-10/istockphoto-488377600-1024x1024.jpeg', '/sites/default/files/2021-10/istockphoto-1217126540-1024x1024.jpeg'];
+          var rdmImage = Math.round(Math.random() * 2);
+          var bgImageHomeSlider = document.querySelector('.parallax-bg');
+          bgImageHomeSlider.style.removeProperty("background-image");
+          bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("' + imgFundoHomePage[rdmImage] + '")';
+          console.log('bgImageHomeSlider - ', bgImageHomeSlider);
+          console.log("imgFundoHomePage[rdmImage]  - ", imgFundoHomePage[rdmImage]);
+          startParallax();
+        }
+
+        function startParallax() {
+          gsap.to(".parallax-bg", {
+            scrollTrigger: {
+              scrub: true
+            },
+            y: function y(i, target) {
+              return -ScrollTrigger.maxScroll(window) * -0.6;
+            },
+            ease: "none"
+          });
+        } //setTimeout(sliderHomeRandomImg,10);
+
+
+        sliderHomeRandomImg();
         removeLoading();
+        corrigirModal();
         addDataSwipperSlidesElements();
-        removeBottomSpace();
+        goDownCCardsSol();
+        goDown();
+        mudaNav(); //document.getElementsByTagName("BODY")[0].onresize = function() {removeBottomSpace()};
       }); //end once
     }
   };
