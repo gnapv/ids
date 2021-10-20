@@ -9,7 +9,7 @@
     width: 90px;
     color: #ebebeb !important;
     display: block;
-    z-index: 10000;
+    z-index: 100;
 
     .voltar-icon{
         transition:all .333s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -20,4 +20,9 @@
     &:hover strong {
         color: $primary !important;
     }
+}
+
+
+.email-campo-news {
+    max-width: 360px;
 }

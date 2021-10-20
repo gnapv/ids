@@ -18045,6 +18045,1036 @@ Popper.Defaults = Defaults;
 
 /***/ }),
 
+/***/ "./node_modules/split-type/dist/index.js":
+/*!***********************************************!*\
+  !*** ./node_modules/split-type/dist/index.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/**
+ * SplitType
+ * https://github.com/lukePeavey/SplitType
+ * @version 0.2.5
+ * @author Luke Peavey <lwpeavey@gmail.com>
+ */
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, descriptor.key, descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  return Constructor;
+}
+
+/**
+ * Shallow merges the properties of an object with the target object. Only
+ * includes properties that exist on the target object. Non-writable properties
+ * on the target object will not be over-written.
+ *
+ * @param {Object} target
+ * @param {Object} object
+ */
+function extend(target, object) {
+  return Object.getOwnPropertyNames(Object(target)).reduce(function (extended, key) {
+    var currentValue = Object.getOwnPropertyDescriptor(Object(target), key);
+    var newValue = Object.getOwnPropertyDescriptor(Object(object), key);
+    return Object.defineProperty(extended, key, newValue || currentValue);
+  }, {});
+}
+
+/**
+ * Parses user supplied settings objects.
+ */
+
+function parseSettings(settings) {
+  var object = extend(settings);
+
+  if (object.types || object.split) {
+    // Support `split` as an alias for `types`
+    object.types = object.types || object.split;
+  }
+
+  if (object.absolute || object.position) {
+    // Support `position: absolute` as alias for `absolute: true`
+    object.absolute = object.absolute || /absolute/.test(settings.position);
+  }
+
+  return object;
+}
+
+/**
+ * Returns true if `value` is a non-null object.
+ * @param {any} value
+ * @return {boolean}
+ */
+function isObject(value) {
+  return value !== null && typeof value === 'object';
+}
+
+/**
+ * Checks if `value` is a valid array-like length.
+ * Original source: Lodash
+ *
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
+ * @example
+ *
+ * _.isLength(3)
+ * // => true
+ *
+ * _.isLength(Number.MIN_VALUE)
+ * // => false
+ *
+ * _.isLength(Infinity)
+ * // => false
+ *
+ * _.isLength('3')
+ * // => false
+ */
+
+function isLength(value) {
+  return typeof value === 'number' && value > -1 && value % 1 === 0;
+}
+/**
+ * Checks if `value` is an array-like object
+ * @param {any} value
+ * @return {boolean} true if `value` is array-like`, else `false`
+ * @example
+ * isArrayLike(new Array())
+ * // => true
+ *
+ * isArrayLike(document.querySelectorAll('div'))
+ * // => true
+ *
+ * isArrayLike(document.getElementsByTagName('div'))
+ * // => true
+ *
+ * isArrayLike(() => {})
+ * // => false
+ *
+ * isArrayLike({foo: 'bar'})
+ * // => false
+ *
+ * * isArrayLike(null)
+ * // => false
+ */
+
+
+function isArrayLike(value) {
+  return isObject(value) && isLength(value.length);
+}
+
+/**
+ * Coerces `value` to an `Array`.
+ *
+ * @param {any} value
+ * @return {any[]}
+ * @example
+ * // If `value` is any `Array`, returns original `Array`
+ * let arr = [1, 2]
+ * toArray(arr)
+ * // => arr
+ *
+ * // If `value` is an `ArrayLike`, its equivalent to `Array.from(value)`
+ * let nodeList = document.querySelectorAll('div')
+ * toArray(nodeList)
+ * // => HTMLElement[] s
+ *
+ * // If value is falsy, returns empty array
+ * toArray(null)
+ * // => []
+ *
+ * // For any other type of value, its equivalent to `Array.of(value)`
+ * let element = document.createElement('div')
+ * toArray(element)
+ * // => [element]
+ *
+ */
+
+function toArray(value) {
+  if (Array.isArray(value)) return value;
+  if (value == null) return [];
+  return isArrayLike(value) ? Array.prototype.slice.call(value) : [value];
+}
+
+/**
+ * Returns true if `input` is one of the following:
+ * - `Element`
+ * - `Text`
+ * - `Document`
+ * - `DocumentFragment`
+ */
+
+function isNode(input) {
+  return isObject(input) && /^(1|3|11)$/.test(input.nodeType);
+}
+
+/**
+ * Checks if given value is a string
+ *
+ * @param {any} value
+ * @return {boolean} `true` if `value` is a string, else `false`
+ */
+function isString(value) {
+  return typeof value === 'string';
+}
+
+/**
+ * Flattens nested ArrayLike object (max 2 levels deep)
+ */
+
+function flatten(obj) {
+  return toArray(obj).reduce(function (result, item) {
+    return result.concat(toArray(item));
+  }, []);
+}
+
+/**
+ * Processes target elements for the splitType function. `target` can any
+ * of the following types.
+ * 1. `string` - A css selector
+ * 2. `HTMLElement` - A single element
+ * 3. `ArrayLike<HTMLElement>` - A collection of elements (ie NodeList)
+ * 4. `Array<HTMLElement | ArrayLike<HTMLElement>>` - An array of elements
+ *     and/or collections of elements
+ *
+ * Returns a flat array of HTML elements. If `target` does not contain any
+ * valid elements, returns an empty array.
+ *
+ * @param {any} target
+ * @returns {HTMLElement[]} A flat array HTML elements
+ * @example
+ *
+ * // Single Element
+ * const element = document.createElement('div')
+ * getTargetElements()
+ * // => [element]
+ *
+ * const nodeList = document.querySelectorAll('div')
+ * getTargetElements(nodeList)
+ * // => HTMLElement[] (all elements in `nodeList`)
+ *
+ * const nodeListA = document.querySelectorAll('div')
+ * const nodeListB = document.querySelectorAll('p')
+ * getTargetElements([nodeListA, nodeListB])
+ * // => HTMLElement[] (all elements in `nodeListA` and `nodeListB`)
+ *
+ * // ID selector
+ * getTargetElements('#id')
+ * // => HTMLElement[]
+ *
+ * // Class selector
+ * getTargetElements('.text')
+ * // => HTMLElement[]
+ *
+ * // Non element object will not be returned
+ * getTargetElements({foo: bar})
+ * // => []
+ *
+ */
+
+function getTargetElements(target) {
+  var elements = target; // If `target` is a selector string...
+
+  if (isString(target)) {
+    if (/^(#[a-z]\w+)$/.test(target.trim())) {
+      // If `target` is an ID, use `getElementById`
+      elements = document.getElementById(target.trim().slice(1));
+    } else {
+      // Else use `querySelectorAll`
+      elements = document.querySelectorAll(target);
+    }
+  }
+
+  return flatten(elements).filter(isNode);
+}
+
+/**
+ * Stores data associated with DOM elements. This is a simplified version of
+ * jQuery's data method.
+ */
+
+function Data(owner, key, value) {
+  var data = {};
+  var id = null;
+
+  if (isObject(owner)) {
+    id = owner[Data.expando] || (owner[Data.expando] = ++Data.uid);
+    data = Data.cache[id] || (Data.cache[id] = {});
+  } // Get data
+
+
+  if (value === undefined) {
+    if (key === undefined) {
+      return data;
+    }
+
+    return data[key];
+  } // Set data
+  else if (key !== undefined) {
+      data[key] = value;
+      return value;
+    }
+}
+Data.expando = "splitType".concat(new Date() * 1);
+Data.cache = {};
+Data.uid = 0; // Remove all data associated with the given element
+
+function RemoveData(element) {
+  var id = element && element[Data.expando];
+
+  if (id) {
+    delete element[id];
+    delete Data.cache[id];
+  }
+}
+
+/**
+ * Iterates values of an array or array-like object calling the provided
+ * `callback` for each item. Based on `array.forEach`
+ * @param {any} collection
+ * @param {function} callback
+ */
+
+function forEach(collection, callback) {
+  var arr = toArray(collection);
+
+  for (var len = arr.length, i = 0; i < len; i++) {
+    callback(arr[i], i, arr);
+  }
+}
+
+/**
+ * Splits a string into an array of words.
+ *
+ * @param {string} string
+ * @param {string | RegExp} [separator = ' ']
+ * @return {string[]} Array of words
+ */
+function toWords(string) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ' ';
+  string = string ? String(string) : '';
+  return string.split(separator);
+}
+
+/**
+ * Based on lodash#split <https://lodash.com/license>
+ * Copyright jQuery Foundation and other contributors <https://jquery.org/>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters &
+ * Editors
+ */
+var rsAstralRange = "\\ud800-\\udfff";
+var rsComboMarksRange = "\\u0300-\\u036f\\ufe20-\\ufe23";
+var rsComboSymbolsRange = "\\u20d0-\\u20f0";
+var rsVarRange = "\\ufe0e\\ufe0f";
+/** Used to compose unicode capture groups. */
+
+var rsAstral = "[".concat(rsAstralRange, "]");
+var rsCombo = "[".concat(rsComboMarksRange).concat(rsComboSymbolsRange, "]");
+var rsFitz = "\\ud83c[\\udffb-\\udfff]";
+var rsModifier = "(?:".concat(rsCombo, "|").concat(rsFitz, ")");
+var rsNonAstral = "[^".concat(rsAstralRange, "]");
+var rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}";
+var rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]";
+var rsZWJ = "\\u200d";
+/** Used to compose unicode regexes. */
+
+var reOptMod = "".concat(rsModifier, "?");
+var rsOptVar = "[".concat(rsVarRange, "]?");
+var rsOptJoin = '(?:' + rsZWJ + '(?:' + [rsNonAstral, rsRegional, rsSurrPair].join('|') + ')' + rsOptVar + reOptMod + ')*';
+var rsSeq = rsOptVar + reOptMod + rsOptJoin;
+var rsSymbol = "(?:".concat(["".concat(rsNonAstral).concat(rsCombo, "?"), rsCombo, rsRegional, rsSurrPair, rsAstral].join('|'), "\n)");
+/** Used to match [string symbols](https://mathiasbynens.be/notes/javascript-unicode). */
+
+var reUnicode = RegExp("".concat(rsFitz, "(?=").concat(rsFitz, ")|").concat(rsSymbol).concat(rsSeq), 'g');
+/** Used to detect strings with [zero-width joiners or code points from the astral planes](http://eev.ee/blog/2015/09/12/dark-corners-of-unicode/). */
+
+var unicodeRange = [rsZWJ, rsAstralRange, rsComboMarksRange, rsComboSymbolsRange, rsVarRange];
+var reHasUnicode = RegExp("[".concat(unicodeRange.join(''), "]"));
+/**
+ * Converts an ASCII `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+
+function asciiToArray(string) {
+  return string.split('');
+}
+/**
+ * Checks if `string` contains Unicode symbols.
+ *
+ * @private
+ * @param {string} string The string to inspect.
+ * @returns {boolean} Returns `true` if a symbol is found, else `false`.
+ */
+
+
+function hasUnicode(string) {
+  return reHasUnicode.test(string);
+}
+/**
+ * Converts a Unicode `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+
+
+function unicodeToArray(string) {
+  return string.match(reUnicode) || [];
+}
+/**
+ * Converts `string` to an array.
+ *
+ * @private
+ * @param {string} string The string to convert.
+ * @returns {Array} Returns the converted array.
+ */
+
+
+function stringToArray(string) {
+  return hasUnicode(string) ? unicodeToArray(string) : asciiToArray(string);
+}
+/**
+ * Converts `value` to a string. An empty string is returned for `null`
+ * and `undefined` values.
+ *
+ * @param {*} value The value to process.
+ * @returns {string} Returns the string.
+ * @example
+ *
+ * _.toString(null);
+ * // => ''
+ *
+ * _.toString([1, 2, 3]);
+ * // => '1,2,3'
+ */
+
+function toString(value) {
+  return value == null ? '' : String(value);
+}
+/**
+ * Splits `string` into an array of characters. If `separator` is omitted,
+ * it behaves likes split.split('').
+ *
+ * Unlike native string.split(''), it can split strings that contain unicode
+ * characters like emojis and symbols.
+ *
+ * @param {string} [string=''] The string to split.
+ * @param {RegExp|string} [separator=''] The separator pattern to split by.
+ * @returns {Array} Returns the string segments.
+ * @example
+ * toChars('foo');
+ * // => ['f', 'o', 'o']
+ *
+ * toChars('foo bar');
+ * // => ["f", "o", "o", " ", "b", "a", "r"]
+ *
+ * toChars('f😀o');
+ * // => ['f', '😀', 'o']
+ *
+ * toChars('f-😀-o', /-/);
+ * // => ['f', '😀', 'o']
+ *
+ */
+
+
+function toChars(string) {
+  var separator = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  string = toString(string);
+
+  if (string && isString(string)) {
+    if (!separator && hasUnicode(string)) {
+      return stringToArray(string);
+    }
+  }
+
+  return string.split(separator);
+}
+
+/**
+ * Create an HTML element with the the given attributes
+ *
+ * attributes can include standard HTML attribute, as well as the following
+ * "special" properties:
+ *   - children: HTMLElement | ArrayLike<HTMLElement>
+ *   - textContent: string
+ *   - innerHTML: string
+ *
+ * @param {string} name
+ * @param  {Object} [attributes]
+ * @returns {HTMLElement}
+ */
+
+function createElement(name, attributes) {
+  var element = document.createElement(name);
+
+  if (!attributes) {
+    // When called without the second argument, its just return the result
+    // of `document.createElement`
+    return element;
+  }
+
+  Object.keys(attributes).forEach(function (attribute) {
+    var value = attributes[attribute]; // Ignore attribute if value is `null`
+
+    if (value === null) return; // Handle `textContent` and `innerHTML`
+
+    if (attribute === 'textContent' || attribute === 'innerHTML') {
+      element[attribute] = value;
+    } // Handle `children`
+    else if (attribute === 'children') {
+        forEach(value, function (child) {
+          if (isNode(child)) element.appendChild(child);
+        });
+      } // Handle standard HTML attributes
+      else {
+          element.setAttribute(attribute, String(value).trim());
+        }
+  });
+  return element;
+}
+
+/**
+ * Takes a comma separated list of `types` and returns an objet
+ *
+ * @param {string | string[]} value a comma separated list of split types
+ * @return {{lines: boolean, words: boolean, chars: boolean}}
+ */
+
+function parseTypes(value) {
+  var types = isString(value) || Array.isArray(value) ? String(value) : '';
+  return {
+    lines: /line/i.test(types),
+    words: /word/i.test(types),
+    chars: /(char)|(character)/i.test(types)
+  };
+}
+
+/**
+ * Gets the text content of an HTML element.
+ *
+ * Optionally, <br> tags can be replaced with a unique string so they can be
+ * converted back HTML later on.
+ *
+ * @param {HTMLElement} element
+ * @param {string} BR_SYMBOL
+ * @return {string} the text content of the given element
+ */
+function getTextContent(element, LINE_BREAK_SYMBOL) {
+  var brTag = /<br\s*\/?>/g;
+  var textContent = element.textContent;
+
+  if (LINE_BREAK_SYMBOL) {
+    var innerHTML = element.innerHTML;
+    var tempDiv = document.createElement('div');
+    tempDiv.innerHTML = innerHTML.replace(brTag, " ".concat(LINE_BREAK_SYMBOL, " "));
+    textContent = tempDiv.textContent;
+  } // Remove extra white space
+
+
+  return textContent.replace(/\s+/g, ' ').trim();
+}
+
+var defaults = {
+  splitClass: '',
+  lineClass: 'line',
+  wordClass: 'word',
+  charClass: 'char',
+  types: 'lines, words, chars',
+  absolute: false,
+  tagName: 'div'
+};
+
+var createFragment = function createFragment() {
+  return document.createDocumentFragment();
+};
+
+var createTextNode = function createTextNode(str) {
+  return document.createTextNode(str);
+};
+/**
+ * Splits the text content of a single element using the provided settings.
+ * There are three possible split types: lines, words, and characters. Each one
+ * is optional, so text can be split into any combination of the three types.
+ *
+ * @param {HTMLElement} element the target element
+ * @param {Object} settings
+ * @return {{
+ *   lines: HTMLElement[],
+ *   words: HTMLElement[],
+ *   chars: HTMLElement[]
+ * }}
+ */
+
+
+function splitSingleElement(element, settings) {
+  settings = extend(defaults, settings); // The split types
+
+  var types = parseTypes(settings.types); // the tag name for split text nodes
+
+  var TAG_NAME = settings.tagName; // A unique string to temporarily replace <br> tags
+
+  var BR_SYMBOL = "B".concat(new Date() * 1, "R"); // (boolean) true if position is set to absolute
+
+  var isAbsolute = settings.position === 'absolute' || settings.absolute; // The array of wrapped line elements
+
+  var lines = []; // The array of wrapped words elements
+
+  var words = []; // The array of wrapped character elements
+
+  var chars = []; // The plain text content of the target element
+
+  var splitText;
+  /**------------------------------------------------
+   ** SPLIT TEXT INTO WORDS AND CHARACTERS
+   **-----------------------------------------------*/
+  // `splitText` is a wrapper to hold the HTML structure
+
+  splitText = types.lines ? createElement('div') : createFragment(); // Get the element's text content.
+
+  var TEXT_CONTENT = getTextContent(element, BR_SYMBOL); // Create an array of wrapped word elements.
+
+  words = toWords(TEXT_CONTENT).reduce(function (result, WORD, idx, arr) {
+    // Let `wordElement` be the wrapped element for the current word
+    var wordElement;
+    var characterElementsForCurrentWord; // If the current word is a symbol representing a `<br>` tag,
+    // append a `<br>` tag to splitText and continue to the next word
+
+    if (WORD === BR_SYMBOL) {
+      splitText.appendChild(createElement('br'));
+      return result;
+    } // If splitting text into characters...
+
+
+    if (types.chars) {
+      // Iterate through the characters in the current word
+      // TODO: support emojis in text
+      characterElementsForCurrentWord = toChars(WORD).map(function (CHAR) {
+        return createElement(TAG_NAME, {
+          class: "".concat(settings.splitClass, " ").concat(settings.charClass),
+          style: 'display: inline-block;',
+          textContent: CHAR
+        });
+      }); // push the character nodes for this word onto the array of
+      // all character nodes
+
+      chars = chars.concat(characterElementsForCurrentWord);
+    } // END IF;
+
+
+    if (types.words || types.lines) {
+      // | If Splitting Text Into Words...
+      // | Create an element (`wordElement`) to wrap the current word.
+      // | If we are also splitting text into characters, the word element
+      // | will contain the wrapped character nodes for this word. If not,
+      // | it will contain the `WORD`
+      wordElement = createElement(TAG_NAME, {
+        class: "".concat(settings.wordClass, " ").concat(settings.splitClass),
+        style: "display: inline-block; position: ".concat(types.words ? 'relative' : 'static'),
+        children: types.chars ? characterElementsForCurrentWord : null,
+        textContent: !types.chars ? WORD : null
+      });
+      splitText.appendChild(wordElement);
+    } else {
+      // | If NOT splitting into words OR lines...
+      // | Append the characters elements directly to splitText.
+      forEach(characterElementsForCurrentWord, function (characterElement) {
+        splitText.appendChild(characterElement);
+      });
+    }
+
+    if (idx !== arr.length - 1) {
+      // Add a space after the word.
+      splitText.appendChild(createTextNode(' '));
+    } // If we not splitting text into words, we return an empty array
+
+
+    return types.words ? result.concat(wordElement) : result;
+  }, []); // 4. Replace the original HTML content of the element with the `splitText`
+
+  element.innerHTML = '';
+  element.appendChild(splitText); // Unless we are splitting text into lines or using
+
+  if (!isAbsolute && !types.lines) {
+    return {
+      chars: chars,
+      words: words,
+      lines: []
+    };
+  }
+  /**------------------------------------------------
+   ** GET STYLES AND POSITIONS
+   **-----------------------------------------------*/
+  // There is no built-in way to detect natural line breaks in text (when a
+  // block of text wraps to fit its container). To split text into lines, we
+  // have to detect line breaks by checking the top offset of words. This is
+  // why text was split into words first. To apply absolute
+  // positioning, its also necessary to record the size and position of every
+  // split node (lines, words, characters).
+  // To consolidate DOM getting/settings, this is all done at the same time,
+  // before actually splitting text into lines, which involves restructuring
+  // the DOM again.
+
+
+  var wordsInEachLine = [];
+  var wordsInCurrentLine = [];
+  var lineHeight;
+  var elementHeight;
+  var elementWidth;
+  var contentBox;
+  var lineOffsetY; // TODO: Is it necessary to store `nodes` in the cache?
+  // nodes is a live HTML collection of the nodes in this element
+
+  var nodes = Data(element, 'nodes', element.getElementsByTagName(TAG_NAME)); // Cache the element's parent and next sibling (for DOM removal).
+
+  var parent = element.parentElement;
+  var nextSibling = element.nextElementSibling; // get the computed style object for the element
+
+  var cs = window.getComputedStyle(element);
+  var align = cs.textAlign; // If using absolute position...
+
+  if (isAbsolute) {
+    // Let contentBox be an object containing the width and offset position of
+    // the element's content box (the area inside padding box). This is needed
+    // (for absolute positioning) to set the width and position of line
+    // elements, which have not been created yet.
+    contentBox = {
+      left: splitText.offsetLeft,
+      top: splitText.offsetTop,
+      width: splitText.offsetWidth
+    }; // Let elementWidth and elementHeight equal the actual width/height of the
+    // element. Also check if the element has inline height or width styles
+    // already set. If it does, cache those values for later.
+
+    elementWidth = element.offsetWidth;
+    elementHeight = element.offsetHeight;
+    Data(element).cssWidth = element.style.width;
+    Data(element).cssHeight = element.style.height;
+  } // Iterate over every split text node
+
+
+  forEach(nodes, function (node) {
+    if (node === splitText) return;
+    var isWord = node.parentElement === splitText;
+    var wordOffsetY; // a. Detect line breaks by checking the top offset of word nodes.
+    //    For each line, create an array (line) containing the words in that
+    //    line.
+
+    if (types.lines && isWord) {
+      // wordOffsetY is the top offset of the current word.
+      wordOffsetY = Data(node, 'top', node.offsetTop); // If wordOffsetY is different than the value of lineOffsetY...
+      // Then this word is the beginning of a new line.
+      // Set lineOffsetY to value of wordOffsetY.
+      // Create a new array (line) to hold the words in this line.
+
+      if (wordOffsetY !== lineOffsetY) {
+        lineOffsetY = wordOffsetY;
+        wordsInEachLine.push(wordsInCurrentLine = []);
+      } // Add the current word node to the line array
+
+
+      wordsInCurrentLine.push(node);
+    } // b. Get the size and position of all split text nodes.
+
+
+    if (isAbsolute) {
+      // The values are stored using the data method
+      // All split nodes have the same height (lineHeight). So its only
+      // retrieved once.
+      // If offset top has already been cached (step 11 a) use the stored value.
+      Data(node).top = wordOffsetY || node.offsetTop;
+      Data(node).left = node.offsetLeft;
+      Data(node).width = node.offsetWidth;
+      Data(node).height = lineHeight || (lineHeight = node.offsetHeight);
+    }
+  }); // END LOOP
+  // Remove the element from the DOM
+
+  if (parent) {
+    parent.removeChild(element);
+  }
+  /**------------------------------------------------
+   ** SPLIT LINES
+   **-----------------------------------------------*/
+
+
+  if (types.lines) {
+    // Let splitText be a new document createFragment to hold the HTML
+    // structure.
+    splitText = createFragment(); // Iterate over lines of text (see 11 b)
+    // Let `line` be the array of words in the current line.
+    // Return an array of the wrapped line elements (lineElements)
+
+    lines = wordsInEachLine.map(function (wordsInThisLine) {
+      // Create an element to wrap the current line.
+      var lineElement = createElement(TAG_NAME, {
+        class: "".concat(settings.splitClass, " ").concat(settings.lineClass),
+        style: "display: block; text-align: ".concat(align, "; width: 100%;")
+      }); // Append the `lineElement` to `SplitText`
+
+      splitText.appendChild(lineElement); // Store size/position values for the line element.
+
+      if (isAbsolute) {
+        Data(lineElement).type = 'line'; // the offset top of the first word in the line
+
+        Data(lineElement).top = Data(wordsInThisLine[0]).top;
+        Data(lineElement).height = lineHeight;
+      } // Iterate over the word elements in the current line.
+
+
+      forEach(wordsInThisLine, function (wordElement, idx, arr) {
+        if (types.words) {
+          // | If we are splitting text into words,
+          // | just append each wordElement to the lineElement.
+          lineElement.appendChild(wordElement);
+        } else if (types.chars) {
+          // | If splitting text into characters but not words...
+          // | Append the character elements directly to the line element
+          forEach(wordElement.children, function (charNode) {
+            lineElement.appendChild(charNode);
+          });
+        } else {
+          // | If NOT splitting into words OR characters...
+          // | append the plain text content of the word to the line element
+          lineElement.appendChild(createTextNode(wordElement.textContent));
+        } // Add a space after the word
+
+
+        if (idx !== arr.length - 1) {
+          lineElement.appendChild(createTextNode(' '));
+        }
+      }); // END LOOP
+
+      return lineElement;
+    }); // END LOOP
+    // 10. Insert the new splitText
+
+    element.replaceChild(splitText, element.firstChild);
+  }
+  /**------------------------------------------------
+   **  SET ABSOLUTE POSITION
+   **-----------------------------------------------*/
+  // Apply absolute positioning to all split text elements (lines, words, and
+  // characters). The size and relative position of split nodes has already
+  // been recorded. Now we use those values to set each element to absolute
+  // position. However, positions were logged before text was split into lines
+  // (step 13 - 15). So some values need to be recalculated to account for the
+  // modified DOM structure.
+
+
+  if (isAbsolute) {
+    // Set the width/height of the parent element, so it does not collapse
+    // when its child nodes are set to absolute position.
+    element.style.width = "".concat(element.style.width || elementWidth, "px");
+    element.style.height = "".concat(elementHeight, "px"); // Iterate over all split nodes.
+
+    forEach(nodes, function (node) {
+      var isLineNode = Data(node).type === 'line';
+      var isChildOfLineNode = !isLineNode && Data(node.parentElement).type === 'line'; // Set the top position of the current node.
+      // -> If its a line node, we use the top offset of its first child
+      // -> If its the child of line node, then its top offset is zero
+
+      node.style.top = "".concat(isChildOfLineNode ? 0 : Data(node).top, "px"); // Set the left position of the current node.
+      // -> If its a line node, this this is equal to the left offset of
+      //    contentBox.
+      // -> If its the child of a line node, the cached valued must be
+      //    recalculated so its relative to the line node (which didn't
+      //    exist when value was initially checked). NOTE: the value is
+      //    recalculated without querying the DOM again
+
+      node.style.left = isLineNode ? "".concat(contentBox.left, "px") : "".concat(Data(node).left - (isChildOfLineNode ? contentBox.left : 0), "px"); // Set the height of the current node to the cached value.
+
+      node.style.height = "".concat(Data(node).height, "px"); //  Set the width of the current node.
+      //  If its a line element, width is equal to the width of the contentBox.
+
+      node.style.width = isLineNode ? "".concat(contentBox.width, "px") : "".concat(Data(node).width, "px"); // Finally, set the node's position to absolute.
+
+      node.style.position = 'absolute';
+    });
+  } // end if;
+  // 14. Re-attach the element to the DOM
+
+
+  if (parent) {
+    if (nextSibling) parent.insertBefore(element, nextSibling);else parent.appendChild(element);
+  }
+
+  return {
+    lines: lines,
+    words: types.words ? words : [],
+    chars: chars
+  };
+}
+
+var _defaults = extend(defaults, {});
+
+var SplitType = /*#__PURE__*/function () {
+  _createClass(SplitType, null, [{
+    key: "defaults",
+
+    /**
+     * The default settings for all splitType instances
+     */
+    get: function get() {
+      return _defaults;
+    }
+    /**
+     * Sets the default settings for all SplitType instances.
+     *
+     * Setting `SplitType.defaults` to an object will merge that object with the
+     * existing defaults.
+     *
+     * @param {Object} settings an object containing the settings to override
+     *
+     * @example
+     * SplitType.defaults = { "position": "absolute" }
+     */
+    ,
+    set: function set(options) {
+      _defaults = extend(_defaults, parseSettings(options));
+    }
+    /**
+     * Creates a new `SplitType` instance
+     *
+     * @param {any} target The target elements to split. can be one of:
+     *  - {string} A css selector
+     *  - {HTMLElement} A single element
+     *  - {ArrayLike<HTMLElement>} A collection of elements
+     *  - {Array<HTMLElement | ArrayLike<HTMLElement>>} A nested array of elements
+     * @param {Object} [options] Settings for the SplitType instance
+     */
+
+  }]);
+
+  function SplitType(target, options) {
+    _classCallCheck(this, SplitType);
+
+    this.isSplit = false;
+    this.settings = extend(_defaults, parseSettings(options));
+    this.elements = getTargetElements(target) || [];
+
+    if (this.elements.length) {
+      // Store the original HTML content of each target element
+      this.originals = this.elements.map(function (element) {
+        return Data(element, 'html', Data(element).html || element.innerHTML);
+      });
+
+      if (this.settings.types) {
+        // Initiate the split operation.
+        this.split();
+      }
+    }
+  }
+  /**
+   * Splits the text in all target elements. This method is called
+   * automatically when a new SplitType instance is created. It can also be
+   * called manually to re-split text with new options.
+   * @param {Object} options
+   * @public
+   */
+
+
+  _createClass(SplitType, [{
+    key: "split",
+    value: function split(options) {
+      var _this = this;
+
+      // If any of the target elements have already been split,
+      // revert them back to their original content before splitting them.
+      this.revert(); // Create arrays to hold the split lines, words, and characters
+
+      this.lines = [];
+      this.words = [];
+      this.chars = []; // cache vertical scroll position before splitting
+
+      var scrollPos = [window.pageXOffset, window.pageYOffset]; // If new options were passed into the `split()` method, update settings
+
+      if (options !== undefined) {
+        this.settings = extend(this.settings, parseSettings(options));
+      } // Split text in each target element
+
+
+      this.elements.forEach(function (element) {
+        // Add the split text nodes from this element to the arrays of all split
+        // text nodes for this instance.
+        var _split2 = splitSingleElement(element, _this.settings),
+            lines = _split2.lines,
+            words = _split2.words,
+            chars = _split2.chars;
+
+        _this.lines = _this.lines.concat(lines);
+        _this.words = _this.words.concat(words);
+        _this.chars = _this.chars.concat(chars);
+        Data(element).isSplit = true;
+      }); // Set isSplit to true for the SplitType instance
+
+      this.isSplit = true; // Set scroll position to cached value.
+
+      window.scrollTo(scrollPos[0], scrollPos[1]); // Clear data Cache
+
+      this.elements.forEach(function (element) {
+        var nodes = Data(element).nodes || [];
+        toArray(nodes).forEach(RemoveData);
+      });
+    }
+    /**
+     * Reverts target element(s) back to their original html content
+     * @public
+     */
+
+  }, {
+    key: "revert",
+    value: function revert() {
+      var _this2 = this;
+
+      // Delete the arrays of split text elements
+      if (this.isSplit) {
+        this.lines = null;
+        this.words = null;
+        this.chars = null;
+      } // Remove split text from target elements and restore original content
+
+
+      this.elements.forEach(function (element) {
+        if (Data(element).isSplit && Data(element).html) {
+          element.innerHTML = Data(element).html;
+          element.style.height = Data(element).cssHeight || '';
+          element.style.width = Data(element).cssWidth || '';
+          _this2.isSplit = false;
+        }
+      });
+    }
+  }]);
+
+  return SplitType;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (SplitType);
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -18088,6 +19118,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var popper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.js");
 /* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bootstrap__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var split_type__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! split-type */ "./node_modules/split-type/dist/index.js");
+
 
  //import "gsap";
 //import { ScrollToPlugin } from "gsap/ScrollToPlugin";
@@ -18107,6 +19139,7 @@ __webpack_require__.r(__webpack_exports__);
         console.log(" ");
         $("#bt-hambuguer").click(function () {
           $(this).toggleClass('is-active');
+          $('.navbar.navbar-expand-lg').toggleClass('nav-back-color');
         });
 
         function confirmaURL() {
@@ -18168,6 +19201,18 @@ __webpack_require__.r(__webpack_exports__);
           } else if (linkGoDown != null && missaoPage != null) {
             linkGoDown.onclick = function () {
               var disTopY = $('.missao').offset().top - 40;
+              $("html,body").animate({
+                scrollTop: disTopY
+              }, 600, "swing");
+            };
+          }
+
+          var contatosMenu = document.querySelector('.navbar-nav .nav-item:last-child a');
+
+          if (contatosMenu != null) {
+            contatosMenu.onclick = function (e) {
+              e.preventDefault();
+              var disTopY = $('.paragraph--id--1402').offset().top - 40;
               $("html,body").animate({
                 scrollTop: disTopY
               }, 600, "swing");
@@ -18247,18 +19292,22 @@ __webpack_require__.r(__webpack_exports__);
 
         function sliderHomeRandomImg() {
           //page-node-14
-          var imgFundoHomePage = ['/sites/default/files/2021-10/istockphoto-1215020405-612x612.jpeg', '/sites/default/files/2021-10/istockphoto-488377600-1024x1024.jpeg', '/sites/default/files/2021-10/istockphoto-1217126540-1024x1024.jpeg'];
+          var imgFundoHomePage = ['/sites/default/files/2021-10/entrada-robot.jpg', '/sites/default/files/2021-10/roupa.jpg', '/sites/default/files/2021-10/familia.jpg'];
           var rdmImage = Math.round(Math.random() * 2);
           var bgImageHomeSlider = document.querySelector('.parallax-bg');
-          bgImageHomeSlider.style.removeProperty("background-image");
-          bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("' + imgFundoHomePage[rdmImage] + '")';
-          console.log('bgImageHomeSlider - ', bgImageHomeSlider);
-          console.log("imgFundoHomePage[rdmImage]  - ", imgFundoHomePage[rdmImage]);
-          startParallax();
+
+          if (bgImageHomeSlider != null) {
+            bgImageHomeSlider.style.removeProperty("background-image");
+            bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("' + imgFundoHomePage[rdmImage] + '")';
+            console.log('bgImageHomeSlider - ', bgImageHomeSlider);
+            console.log("imgFundoHomePage[rdmImage]  - ", imgFundoHomePage[rdmImage]); //init parallax GSAP
+            //startParallax();
+          }
         }
 
         function startParallax() {
-          gsap.to(".parallax-bg", {
+          console.log("ola startParallax ----------");
+          gsap.to(".parallax-bg-mau", {
             scrollTrigger: {
               scrub: true
             },
@@ -18267,16 +19316,172 @@ __webpack_require__.r(__webpack_exports__);
             },
             ease: "none"
           });
-        } //setTimeout(sliderHomeRandomImg,10);
+        }
 
+        function animaTxt() {
+          //const text = new SplitType('.split-txt'); // da 3 ARRAY - text.lines text.words text.chars
+          var text = new split_type__WEBPACK_IMPORTED_MODULE_2__["default"]('.slider-home .split-txt-js', {
+            types: 'words, lines'
+          });
+          var words = text.words; //an array of all the divs that wrap each character
 
-        sliderHomeRandomImg();
+          var tl = gsap.timeline(); //gsap.set(".split-txt", { y:100});
+          //gsap.set(words, { y:"100%"});
+
+          gsap.set(words, {
+            y: 100
+          });
+          tl.to(words, {
+            duration: .8,
+            y: 0,
+            ease: "back",
+            stagger: 0.1
+          }, "+=0"); //tl.to(words, {duration:.8 , y:0,  ease: CustomEase.create("custom", "M0,0 C0.128,0.572 0.243,0.966 0.498,1.04 0.658,1.086 0.838,1 1,1 "), stagger: 0.1}, "+=0");
+          //console.log("ola agora");
+        }
+
+        sliderHomeRandomImg(); //animaTxt();
+
+        animaSecctionsTexto();
         removeLoading();
         corrigirModal();
         addDataSwipperSlidesElements();
         goDownCCardsSol();
         goDown();
-        mudaNav(); //document.getElementsByTagName("BODY")[0].onresize = function() {removeBottomSpace()};
+        mudaNav(); //startParallax();
+
+        function animaSecctionsTexto() {
+          var seccionElements = document.querySelectorAll("[class*='animated-section']"); // animaTxt - words
+
+          seccionElements.forEach(function (section, i) {
+            //console.log("section = ",section);
+            var itemAniElements = section.querySelectorAll(".split-txt-js-words");
+            var text = new split_type__WEBPACK_IMPORTED_MODULE_2__["default"](itemAniElements, {
+              types: 'words'
+            });
+            var words = text.words; //an array of all the divs that wrap each character
+
+            var startPosItems = "top bottom-=120px";
+            var itemElements = words;
+            var objInItems = {};
+            var objOutitems = {};
+            var objSet = {};
+            objSet.opacity = "0";
+            objSet.y = 40;
+            gsap.set(itemElements, objSet);
+            objInItems.duration = 0.8;
+            objInItems.opacity = 1;
+            objInItems.y = 0;
+            objInItems.ease = "back";
+            objInItems.stagger = 0.05;
+            objOutitems.duration = 0.35;
+            objOutitems.opacity = 0;
+            objOutitems.y = 100;
+            objOutitems.ease = "power1.inOut";
+            objOutitems.stagger = 0.1;
+            ScrollTrigger.batch(itemElements, {
+              onEnter: function onEnter(elements, triggers) {
+                gsap.to(elements, objInItems);
+              },
+              onLeaveBack: function onLeaveBack(elements, triggers) {
+                gsap.to(elements, objOutitems);
+              },
+              start: startPosItems
+            });
+          }); // animaTxt - lines
+
+          seccionElements.forEach(function (section, i) {
+            //console.log("section = ",section);
+            var itemAniElements = section.querySelectorAll(".split-txt-js");
+            var text = new split_type__WEBPACK_IMPORTED_MODULE_2__["default"](itemAniElements, {
+              types: 'lines'
+            });
+            var words = text.lines; //an array of all the divs that wrap each character
+
+            var startPosItems = "top bottom-=120px";
+            var itemElements = words;
+            var objInItems = {};
+            var objOutitems = {};
+            var objSet = {};
+            objSet.opacity = "0";
+            objSet.y = 40;
+            gsap.set(itemElements, objSet);
+            objInItems.duration = 0.8;
+            objInItems.opacity = 1;
+            objInItems.y = 0;
+            objInItems.ease = "back";
+            objInItems.stagger = 0.3;
+            objOutitems.duration = 0.35;
+            objOutitems.opacity = 0;
+            objOutitems.y = 100;
+            objOutitems.ease = "power1.inOut";
+            objOutitems.stagger = 0.1;
+            ScrollTrigger.batch(itemElements, {
+              onEnter: function onEnter(elements, triggers) {
+                gsap.to(elements, objInItems);
+              },
+              onLeaveBack: function onLeaveBack(elements, triggers) {
+                gsap.to(elements, objOutitems);
+              },
+              start: startPosItems
+            });
+          }); //anima tapa-img
+
+          seccionElements.forEach(function (section, i) {
+            //console.log("section = ",section);
+            var itemAniElements = section.querySelectorAll(".tapa-img");
+            var startPosItems = "top bottom-=220px";
+            var itemElements = itemAniElements;
+            var objInItems = {};
+            var objOutitems = {};
+            var objSet = {}; //objSet.transformOrigin  = '0% 100%';
+            //objSet.xPercent = 100;
+            //gsap.set(itemElements, objSet);
+
+            objInItems.duration = .6;
+            objInItems.width = 0; //objInItems.xPercent = 1000;
+
+            objInItems.ease = "none";
+            objOutitems.duration = 1;
+            objOutitems.width = 1200; //objOutitems.xPercent = 0;
+
+            objOutitems.ease = "none";
+            ScrollTrigger.batch(itemElements, {
+              onEnter: function onEnter(elements, triggers) {
+                gsap.to(elements, objInItems);
+              },
+              onLeaveBack: function onLeaveBack(elements, triggers) {
+                gsap.to(elements, objOutitems);
+              },
+              start: startPosItems
+            });
+          });
+        } //Help functions 
+
+
+        function getFullClass(partialClass) {
+          foundClasses = [];
+          $("[class*='" + partialClass + "']").each(function (i, e) {
+            seccionElements.push(e);
+            foundClasses.push($(e).attr("class").split(" ").filter(function (d) {
+              return d.indexOf(partialClass) >= 0;
+            }));
+          }); // console.log("seccionElements = "+seccionElements);
+
+          return foundClasses;
+        }
+
+        function extractProps(groupClass) {
+          //groupClass.split("--");
+          //console.log("groupClass = "+ groupClass);
+          foundProps = [];
+          $.each(groupClass, function (i, val) {
+            //console.log("val = "+ val +" i = "+i);
+            foundProps.push(val.toString().split("--")); //console.log("foundProps = "+ foundProps[i]);
+          });
+          return foundProps;
+        } //document.getElementsByTagName("BODY")[0].onresize = function() {removeBottomSpace()};
+
       }); //end once
     }
   };

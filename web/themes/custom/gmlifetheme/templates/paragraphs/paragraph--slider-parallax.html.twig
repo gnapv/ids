@@ -53,13 +53,13 @@
 
     {% if paragraph.field_background_gradient.value|render|trim %}
         style="background-image: {{ paragraph.field_background_gradient.value|render|trim }}, 
-        url({{ image_url }}); background-blend-mode: {{ paragraph.field_background_blend_mode.value|render|trim }}"
+        url({{ image_url1 }}); background-blend-mode: {{ paragraph.field_background_blend_mode.value|render|trim }}"
     {% elseif paragraph.field_background_solid_color.value|render|trim %}
         style="background-color: {{ paragraph.field_background_solid_color.value|render|trim }}; 
-        background-image: url({{ image_url }}); 
+        background-image: url({{ image_url1 }}); 
         background-blend-mode: {{ paragraph.field_background_blend_mode.value|render|trim }}"
     {% elseif image_url != '/' %}
-        style="background-image: url({{ image_url }})"
+        style="background-image: url({{ image_url1 }})"
     {% else %}	
     {% endif %}
 

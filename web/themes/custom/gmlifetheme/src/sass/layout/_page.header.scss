@@ -15,18 +15,53 @@
     }
 
     .navbar-nav .nav-link   {
+        position: relative;
         font-weight: 500;
         font-size: rem(18); // or rem(18px)
         color: $white;
         margin-right: 15px;
         transition: all .175s ease-out;
         border-top: 2px solid transparent;
-    }
-    .nav-link:hover, .nav-link.is-active  {
-        color: $primary !important;
-        border-top: 2px solid $primary;
-        transform: translate(0,2px);
-        transition-delay: 0s;
+
+        &::after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            width: 100%;
+             transform: scaleX(0);
+            // transform-origin: right 0;
+            // transition-delay: .3s;
+            // transition: all .175s ease-out;
+            left: 0;
+            background-color: $primary;
+
+            animation: menu-out .175s  ease-in forwards;
+
+        }
+        &:active, &:focus {
+            color: $white;
+        }
+        &:hover {
+         color: $primary !important;
+        }
+
+
+        &:hover::after{
+            // transform: scaleX(1);
+            // transform-origin: left 0;
+            animation: menu-in .175s ease-out forwards;
+
+        }
+        &.is-active{
+         color: $primary !important;
+         pointer-events: none;
+         
+        }
+        &.is-active:after{
+            transform: scaleX(1)!important;
+           }
+
     }
 
     .js-form-item input {
@@ -38,6 +73,31 @@
         right: 60px;
         top: 10px;
     }
+}
+
+.nav-back-color {
+    background-color: $dark !important;
+}
+
+@keyframes menu-in {
+    from {
+        transform: scaleX(0);
+        transform-origin: left 0;
+    }
+    to {
+        transform: scaleX(1);
+        transform-origin: left 0;
+     }
+}
+@keyframes menu-out {
+    from {
+        transform: scaleX(1);
+        transform-origin: right 0;
+    }
+    to {
+        transform: scaleX(0);
+        transform-origin: right 0;
+     }
 }
 
 
@@ -119,12 +179,12 @@
 //  SLIDER HOME
 
 .slider-home h4 {
-    padding-left: 33px;
+    padding-left: 53px;
 }
 
 .slider-txt-1 {
     border-left: 10px solid $primary;
-    padding-left: 20px;
+    padding-left: 40px;
 }
 
 .scroll-down {
@@ -134,6 +194,10 @@
     border: none;
     background: transparent;
     color: #fff;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 127px;
 }
 
 .sd-icon {
@@ -162,12 +226,21 @@
     }
 
 @media screen and (max-width: 600px) {  
+    .navbar-brand img {
+        width: 80% !important;;
+        height: auto;
+
+    }
         .navbar-toggler {
          right: 30px!important;
         }
 }
 
-@media screen and (max-width: 440px) {  
+@media screen and (max-width: 440px) { 
+    .navbar-brand img {
+        width: 30% !important;;
+        height: auto;
+    } 
     .block--gmlifetheme-branding {
         width: 75%;
     }

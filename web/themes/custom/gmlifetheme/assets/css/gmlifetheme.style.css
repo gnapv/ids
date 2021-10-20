@@ -13263,6 +13263,26 @@ a.text-dark:hover, a.text-dark:focus {
 * ==========================================
 *
 */
+.split-txt-js {
+  overflow: hidden;
+}
+.split-txt-js .line {
+  overflow: hidden;
+}
+
+.split-txt-js-word .line {
+  overflow: hidden;
+}
+
+.tapa-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+}
+
 .img-cover {
   width: 100%;
   height: 100%;
@@ -13288,6 +13308,8 @@ a.text-dark:hover, a.text-dark:focus {
   background-color: #EF453E;
   transform: rotate(-10deg) translate(40px, 7px);
   transform-origin: center;
+  left: 0;
+  top: 0;
 }
 .title-separator::before {
   content: "";
@@ -13297,6 +13319,8 @@ a.text-dark:hover, a.text-dark:focus {
   background-color: #EF453E;
   transform: rotate(30deg) translate(-40px, 24px);
   transform-origin: center;
+  right: 0 !important;
+  top: 0;
 }
 
 .accelerated {
@@ -13821,6 +13845,13 @@ strong, b {
   outline: 0 !important;
 }
 
+input, input:before, input:after {
+  -webkit-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
+}
+
 html {
   text-rendering: optimizeLegibility !important;
   -webkit-font-smoothing: antialiased !important;
@@ -13885,6 +13916,7 @@ body {
   height: auto;
 }
 .navbar .navbar-nav .nav-link {
+  position: relative;
   font-weight: 500;
   font-size: 1.125rem;
   color: #fff;
@@ -13892,11 +13924,34 @@ body {
   transition: all 0.175s ease-out;
   border-top: 2px solid transparent;
 }
-.navbar .nav-link:hover, .navbar .nav-link.is-active {
+.navbar .navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  left: 0;
+  background-color: #EF453E;
+  -webkit-animation: menu-out 0.175s ease-in forwards;
+          animation: menu-out 0.175s ease-in forwards;
+}
+.navbar .navbar-nav .nav-link:active, .navbar .navbar-nav .nav-link:focus {
+  color: #fff;
+}
+.navbar .navbar-nav .nav-link:hover {
   color: #EF453E !important;
-  border-top: 2px solid #EF453E;
-  transform: translate(0, 2px);
-  transition-delay: 0s;
+}
+.navbar .navbar-nav .nav-link:hover::after {
+  -webkit-animation: menu-in 0.175s ease-out forwards;
+          animation: menu-in 0.175s ease-out forwards;
+}
+.navbar .navbar-nav .nav-link.is-active {
+  color: #EF453E !important;
+  pointer-events: none;
+}
+.navbar .navbar-nav .nav-link.is-active:after {
+  transform: scaleX(1) !important;
 }
 .navbar .js-form-item input {
   display: none;
@@ -13907,6 +13962,51 @@ body {
   top: 10px;
 }
 
+.nav-back-color {
+  background-color: #091C2B !important;
+}
+
+@-webkit-keyframes menu-in {
+  from {
+    transform: scaleX(0);
+    transform-origin: left 0;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left 0;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    transform: scaleX(0);
+    transform-origin: left 0;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left 0;
+  }
+}
+@-webkit-keyframes menu-out {
+  from {
+    transform: scaleX(1);
+    transform-origin: right 0;
+  }
+  to {
+    transform: scaleX(0);
+    transform-origin: right 0;
+  }
+}
+@keyframes menu-out {
+  from {
+    transform: scaleX(1);
+    transform-origin: right 0;
+  }
+  to {
+    transform: scaleX(0);
+    transform-origin: right 0;
+  }
+}
 .hamburger {
   font: inherit;
   display: inline-block;
@@ -13990,12 +14090,12 @@ body {
 }
 
 .slider-home h4 {
-  padding-left: 33px;
+  padding-left: 53px;
 }
 
 .slider-txt-1 {
   border-left: 10px solid #EF453E;
-  padding-left: 20px;
+  padding-left: 40px;
 }
 
 .scroll-down {
@@ -14005,6 +14105,10 @@ body {
   border: none;
   background: transparent;
   color: #fff;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 127px;
 }
 
 .sd-icon {
@@ -14027,11 +14131,21 @@ body {
   }
 }
 @media screen and (max-width: 600px) {
+  .navbar-brand img {
+    width: 80% !important;
+    height: auto;
+  }
+
   .navbar-toggler {
     right: 30px !important;
   }
 }
 @media screen and (max-width: 440px) {
+  .navbar-brand img {
+    width: 30% !important;
+    height: auto;
+  }
+
   .block--gmlifetheme-branding {
     width: 75%;
   }
@@ -14040,12 +14154,22 @@ body {
   max-height: 500px;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
+  .title-separator {
+    padding: 0 20px !important;
+  }
+
   .title-separator::after {
-    right: 10px;
+    left: -35px;
     top: 0;
   }
 
+  .title-separator::before {
+    right: -38px !important;
+    top: 0;
+  }
+}
+@media (max-width: 991.98px) {
   .limit-h img {
     height: 50vh;
   }
@@ -14081,7 +14205,8 @@ body {
   top: -20px;
 }
 .dest-quem-somos .title-separator::after {
-  right: 20px;
+  right: 20px !important;
+  left: unset !important;
 }
 
 .missao {
@@ -14356,6 +14481,31 @@ body {
   font-weight: 600;
   color: #091C2B !important;
 }
+.page-node-17 .title-separator, .page-node-18 .title-separator, .page-node-19 .title-separator {
+  position: relative;
+}
+.page-node-17 .title-separator::after, .page-node-18 .title-separator::after, .page-node-19 .title-separator::after {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 35px;
+  background-color: #EF453E;
+  transform: rotate(-10deg) translate(40px, 7px);
+  transform-origin: center;
+  left: -55px !important;
+  top: 10px !important;
+}
+.page-node-17 .title-separator::before, .page-node-18 .title-separator::before, .page-node-19 .title-separator::before {
+  content: "";
+  position: absolute;
+  width: 3px;
+  height: 35px;
+  background-color: #EF453E;
+  transform: rotate(30deg) translate(-40px, 24px);
+  transform-origin: center;
+  right: -55px !important;
+  top: 10px !important;
+}
 
 .laundry-page .logo-product img {
   padding-top: 100px;
@@ -14393,6 +14543,11 @@ body {
 }
 
 @media (max-width: 992px) {
+  .page-node-17 .nav a, .page-node-18 .nav a, .page-node-19 .nav a {
+    font-weight: 600;
+    color: #fff !important;
+  }
+
   .options-sizes {
     width: 140%;
   }
@@ -14461,7 +14616,7 @@ body {
   width: 90px;
   color: #ebebeb !important;
   display: block;
-  z-index: 10000;
+  z-index: 100;
 }
 .voltar-btn .voltar-icon {
   transition: all 0.333s cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -14471,4 +14626,8 @@ body {
 }
 .voltar-btn:hover strong {
   color: #EF453E !important;
+}
+
+.email-campo-news {
+  max-width: 360px;
 }

@@ -1,5 +1,6 @@
 import 'popper.js';
 import 'bootstrap';
+import SplitType from 'split-type';
 //import "gsap";
 //import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
@@ -31,6 +32,7 @@ import 'bootstrap';
 
     	$( "#bt-hambuguer" ).click(function() {
 		  $(this).toggleClass('is-active');
+		  $('.navbar.navbar-expand-lg').toggleClass('nav-back-color');
 		});
 
 
@@ -103,6 +105,18 @@ import 'bootstrap';
 				$("html,body").animate({ scrollTop: disTopY }, 600, "swing");
 			}
 		}
+
+
+		let contatosMenu = document.querySelector('.navbar-nav .nav-item:last-child a');
+		if(contatosMenu != null  ){
+			contatosMenu.onclick = function (e) {
+				e.preventDefault();
+				let disTopY = $('.paragraph--id--1402').offset().top - 40;
+				$("html,body").animate({ scrollTop: disTopY }, 600, "swing");
+			}
+		}
+		
+
 		
 	}
 
@@ -175,25 +189,30 @@ import 'bootstrap';
 
 	function sliderHomeRandomImg() {
 		//page-node-14
-		let imgFundoHomePage = ['/sites/default/files/2021-10/istockphoto-1215020405-612x612.jpeg',
-								'/sites/default/files/2021-10/istockphoto-488377600-1024x1024.jpeg',
-								'/sites/default/files/2021-10/istockphoto-1217126540-1024x1024.jpeg'];
+		let imgFundoHomePage = ['/sites/default/files/2021-10/entrada-robot.jpg',
+								'/sites/default/files/2021-10/roupa.jpg',
+								'/sites/default/files/2021-10/familia.jpg'];
 
 		let rdmImage = Math.round(Math.random()*2);
 
 		let bgImageHomeSlider = document.querySelector('.parallax-bg');
-		bgImageHomeSlider.style.removeProperty("background-image");
-		bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("'+ imgFundoHomePage[rdmImage] +'")';
-  
-		console.log('bgImageHomeSlider - ',bgImageHomeSlider);
-		console.log("imgFundoHomePage[rdmImage]  - ",imgFundoHomePage[rdmImage] );
 
-		startParallax();
+		if (bgImageHomeSlider != null) {
+			bgImageHomeSlider.style.removeProperty("background-image");
+			bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("'+ imgFundoHomePage[rdmImage] +'")';
+	  
+			console.log('bgImageHomeSlider - ',bgImageHomeSlider);
+			console.log("imgFundoHomePage[rdmImage]  - ",imgFundoHomePage[rdmImage] );
+			//init parallax GSAP
+			//startParallax();
+		}
+
 	}
 
 
 	function startParallax(){
-		gsap.to(".parallax-bg", {
+		console.log("ola startParallax ----------");
+		gsap.to(".parallax-bg-mau", {
 			scrollTrigger: {
 			  scrub: true
 			}, 
@@ -202,17 +221,211 @@ import 'bootstrap';
 		  });
 	}
 
-	//setTimeout(sliderHomeRandomImg,10);
+	function animaTxt() {
+		//const text = new SplitType('.split-txt'); // da 3 ARRAY - text.lines text.words text.chars
+		const text = new SplitType('.slider-home .split-txt-js', { types: 'words, lines' });
+  
+		let words = text.words; //an array of all the divs that wrap each character
+		const tl = gsap.timeline();
+		//gsap.set(".split-txt", { y:100});
+		//gsap.set(words, { y:"100%"});
+		gsap.set(words, { y:100});
+		tl.to(words, {duration:.8 , y:0,  ease:"back", stagger: 0.1}, "+=0");
+		//tl.to(words, {duration:.8 , y:0,  ease: CustomEase.create("custom", "M0,0 C0.128,0.572 0.243,0.966 0.498,1.04 0.658,1.086 0.838,1 1,1 "), stagger: 0.1}, "+=0");
+		//console.log("ola agora");
+	}
 	
 	sliderHomeRandomImg();
-
-
+	//animaTxt();
+	animaSecctionsTexto();
 	removeLoading();
 	corrigirModal();
 	addDataSwipperSlidesElements ()
 	goDownCCardsSol();
 	goDown();
 	mudaNav();
+
+	//startParallax();
+
+	function animaSecctionsTexto() {
+
+		const seccionElements = document.querySelectorAll("[class*='animated-section']");
+		
+		
+			// animaTxt - words
+			seccionElements.forEach((section, i) => {
+
+					//console.log("section = ",section);
+
+					let itemAniElements = section.querySelectorAll(".split-txt-js-words");
+					const text = new SplitType(itemAniElements, { types: 'words' });
+					let words = text.words; //an array of all the divs that wrap each character
+			
+					let startPosItems = "top bottom-=120px";
+					let itemElements = words;
+
+					let objInItems = {};
+					let objOutitems = {};
+					let objSet = {};
+
+					objSet.opacity = "0";
+					objSet.y =40;
+					
+					gsap.set(itemElements, objSet);
+
+					objInItems.duration = 0.8;
+					objInItems.opacity = 1;
+					objInItems.y = 0;
+					objInItems.ease = "back";
+					objInItems.stagger = 0.05;
+
+					objOutitems.duration = 0.35;
+					objOutitems.opacity = 0;
+					objOutitems.y = 100;
+					objOutitems.ease = "power1.inOut";
+					objOutitems.stagger = 0.1;
+
+					ScrollTrigger.batch( itemElements, {
+					onEnter: (elements, triggers) => {
+						gsap.to(elements, objInItems );
+					},
+					onLeaveBack: (elements, triggers) => {
+						gsap.to(elements, objOutitems );
+					},
+					start: startPosItems,
+					});
+
+
+			});
+
+
+
+
+			// animaTxt - lines
+			seccionElements.forEach((section, i) => {
+
+				//console.log("section = ",section);
+				let itemAniElements = section.querySelectorAll(".split-txt-js");
+				const text = new SplitType(itemAniElements, { types: 'lines' });
+				let words = text.lines; //an array of all the divs that wrap each character
+		
+				let startPosItems = "top bottom-=120px";
+				let itemElements = words;
+
+				let objInItems = {};
+				let objOutitems = {};
+				let objSet = {};
+
+				objSet.opacity = "0";
+				objSet.y =40;
+				
+				gsap.set(itemElements, objSet);
+
+				objInItems.duration = 0.8;
+				objInItems.opacity = 1;
+				objInItems.y = 0;
+				objInItems.ease = "back";
+				objInItems.stagger = 0.3;
+
+				objOutitems.duration = 0.35;
+				objOutitems.opacity = 0;
+				objOutitems.y = 100;
+				objOutitems.ease = "power1.inOut";
+				objOutitems.stagger = 0.1;
+
+				ScrollTrigger.batch( itemElements, {
+				onEnter: (elements, triggers) => {
+					gsap.to(elements, objInItems );
+				},
+				onLeaveBack: (elements, triggers) => {
+					gsap.to(elements, objOutitems );
+				},
+				start: startPosItems,
+				});
+
+
+		});
+
+
+
+			//anima tapa-img
+			seccionElements.forEach((section, i) => {
+
+				//console.log("section = ",section);
+
+				let itemAniElements = section.querySelectorAll(".tapa-img");
+
+				let startPosItems = "top bottom-=220px";
+				let itemElements = itemAniElements;
+
+
+
+				let objInItems = {};
+				let objOutitems = {};
+				let objSet = {};
+
+
+
+				//objSet.transformOrigin  = '0% 100%';
+				//objSet.xPercent = 100;
+				//gsap.set(itemElements, objSet);
+
+
+				objInItems.duration = .6;
+				objInItems.width = 0;
+				//objInItems.xPercent = 1000;
+				objInItems.ease = "none";
+
+				
+				objOutitems.duration = 1;
+				objOutitems.width = 1200;
+				//objOutitems.xPercent = 0;
+				objOutitems.ease = "none";
+
+
+
+
+				ScrollTrigger.batch( itemElements, {
+				onEnter: (elements, triggers) => {
+					gsap.to(elements, objInItems );
+				},
+				onLeaveBack: (elements, triggers) => {
+					gsap.to(elements, objOutitems );
+				},
+				start: startPosItems,
+				});
+
+
+
+		});
+
+	}
+
+	      //Help functions 
+
+		  function getFullClass(partialClass) {
+			foundClasses = [];
+			$("[class*='" + partialClass + "']").each(function (i, e) {
+			  seccionElements.push(e);
+				foundClasses.push($(e).attr("class").split(" ").filter(function (d) {
+					return d.indexOf(partialClass) >= 0
+				}));
+			});
+		  // console.log("seccionElements = "+seccionElements);
+			return foundClasses;
+	
+		}
+		function extractProps(groupClass){
+			//groupClass.split("--");
+			//console.log("groupClass = "+ groupClass);
+			foundProps = [];
+			$.each( groupClass, function( i, val ) {
+				//console.log("val = "+ val +" i = "+i);
+				foundProps.push(val.toString().split("--"));
+				//console.log("foundProps = "+ foundProps[i]);
+			});
+			return foundProps;
+		  }
 
 
 	//document.getElementsByTagName("BODY")[0].onresize = function() {removeBottomSpace()};

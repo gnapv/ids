@@ -9,16 +9,25 @@
 
 }
 
-@include media-breakpoint-down(md) { 
+@include media-breakpoint-down(lg) { 
+    .title-separator {
+        padding: 0 20px !important;
+    }
     .title-separator::after {
-        right: 10px;
+        left: -35px;
         top: 0;
     }
+    .title-separator::before {
+        right: -38px !important;
+        top: 0;
+    }
+ }
+
+@include media-breakpoint-down(md) { 
+
     .limit-h img {
         height: 50vh;
     }
-
-
  }
 
 
@@ -62,7 +71,9 @@
     }
 
     .title-separator::after{
-        right: 20px;
+        right: 20px !important;
+        left: unset !important;
+
     }
 
 }
@@ -373,6 +384,34 @@
         font-weight: 600;
         color: $dark !important;
     }
+
+    .title-separator {
+        position: relative;
+        &::after{
+          content: "";
+          position: absolute;
+          width: 3px;
+          height: 35px;
+          background-color: $primary;
+          transform: rotate(-10deg) translate(40px, 7px);
+          transform-origin: center;
+          left: -55px !important;
+          top: 10px !important;
+          
+        }
+        &::before{
+          content: "";
+          position: absolute;
+          width: 3px;
+          height: 35px;
+          background-color: $primary;
+          transform: rotate(30deg) translate(-40px,24px);
+          transform-origin: center;
+          right: -55px !important;
+          top: 10px!important;
+        }
+      }
+
 }
 
 .laundry-page {
@@ -423,6 +462,12 @@
 }
 
 @media (max-width:992px) {
+    .page-node-17, .page-node-18, .page-node-19 {
+        .nav a {
+            font-weight: 600;
+            color: $white !important;
+        }
+    }
 
     .options-sizes {
         width: 140%;
