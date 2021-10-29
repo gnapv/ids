@@ -119,6 +119,12 @@ import SplitType from 'split-type';
 
 		
 	}
+	function goUp() {
+		let linkGoUp = document.getElementsByClassName("scroll-up")[0];
+		linkGoUp.onclick = function () {
+			$("html,body").animate({ scrollTop: 0 }, 600, "swing");
+		}
+	}
 
 	function goDownCCardsSol() {
 
@@ -201,12 +207,26 @@ import SplitType from 'split-type';
 			bgImageHomeSlider.style.removeProperty("background-image");
 			bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("'+ imgFundoHomePage[rdmImage] +'")';
 	  
-			console.log('bgImageHomeSlider - ',bgImageHomeSlider);
-			console.log("imgFundoHomePage[rdmImage]  - ",imgFundoHomePage[rdmImage] );
+			//console.log('bgImageHomeSlider - ',bgImageHomeSlider);
+			//console.log("imgFundoHomePage[rdmImage]  - ",imgFundoHomePage[rdmImage] );
 			//init parallax GSAP
 			//startParallax();
 		}
 
+	}
+
+	function corrigi100vh() {
+			// First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+			let vh = window.innerHeight * 0.01;
+			// Then we set the value in the --vh custom property to the root of the document
+			document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+			// We listen to the resize event
+			window.addEventListener('resize', () => {
+			// We execute the same script as before
+			let vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty('--vh', `${vh}px`);
+			});
 	}
 
 
@@ -235,6 +255,7 @@ import SplitType from 'split-type';
 		//console.log("ola agora");
 	}
 	
+	corrigi100vh();
 	sliderHomeRandomImg();
 	//animaTxt();
 	animaSecctionsTexto();
@@ -243,6 +264,7 @@ import SplitType from 'split-type';
 	addDataSwipperSlidesElements ()
 	goDownCCardsSol();
 	goDown();
+	goUp();
 	mudaNav();
 
 	//startParallax();

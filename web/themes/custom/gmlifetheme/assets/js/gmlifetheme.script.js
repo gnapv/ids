@@ -19220,6 +19220,16 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
 
+        function goUp() {
+          var linkGoUp = document.getElementsByClassName("scroll-up")[0];
+
+          linkGoUp.onclick = function () {
+            $("html,body").animate({
+              scrollTop: 0
+            }, 600, "swing");
+          };
+        }
+
         function goDownCCardsSol() {
           var linkSolucoes1 = document.getElementsByClassName("its-1")[0];
           var linkSolucoes2 = document.getElementsByClassName("its-2")[0];
@@ -19298,11 +19308,24 @@ __webpack_require__.r(__webpack_exports__);
 
           if (bgImageHomeSlider != null) {
             bgImageHomeSlider.style.removeProperty("background-image");
-            bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("' + imgFundoHomePage[rdmImage] + '")';
-            console.log('bgImageHomeSlider - ', bgImageHomeSlider);
-            console.log("imgFundoHomePage[rdmImage]  - ", imgFundoHomePage[rdmImage]); //init parallax GSAP
+            bgImageHomeSlider.style.backgroundImage = 'linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.68)), url("' + imgFundoHomePage[rdmImage] + '")'; //console.log('bgImageHomeSlider - ',bgImageHomeSlider);
+            //console.log("imgFundoHomePage[rdmImage]  - ",imgFundoHomePage[rdmImage] );
+            //init parallax GSAP
             //startParallax();
           }
+        }
+
+        function corrigi100vh() {
+          // First we get the viewport height and we multiple it by 1% to get a value for a vh unit
+          var vh = window.innerHeight * 0.01; // Then we set the value in the --vh custom property to the root of the document
+
+          document.documentElement.style.setProperty('--vh', "".concat(vh, "px")); // We listen to the resize event
+
+          window.addEventListener('resize', function () {
+            // We execute the same script as before
+            var vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', "".concat(vh, "px"));
+          });
         }
 
         function startParallax() {
@@ -19340,6 +19363,7 @@ __webpack_require__.r(__webpack_exports__);
           //console.log("ola agora");
         }
 
+        corrigi100vh();
         sliderHomeRandomImg(); //animaTxt();
 
         animaSecctionsTexto();
@@ -19348,6 +19372,7 @@ __webpack_require__.r(__webpack_exports__);
         addDataSwipperSlidesElements();
         goDownCCardsSol();
         goDown();
+        goUp();
         mudaNav(); //startParallax();
 
         function animaSecctionsTexto() {

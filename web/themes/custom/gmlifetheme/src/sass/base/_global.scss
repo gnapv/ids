@@ -3,6 +3,11 @@
  *  Default settings
  *
  */
+ :root {
+    --alt-hack: calc(var(--vh, 1vh) * 100);
+  }
+ 
+
 
 *,*:before,*:after {
 	box-sizing: border-box;
@@ -27,6 +32,7 @@ html{
 	-webkit-font-smoothing:antialiased!important;
     -webkit-text-size-adjust:100%;
     -moz-osx-font-smoothing: grayscale;
+    // height: -webkit-fill-available;
 }
 
 body {
@@ -34,6 +40,9 @@ body {
     padding: 0;
     overflow-x: hidden;
     font-family: 'Montserrat', sans-serif;
+    //min-height: 100vh;
+    /* mobile viewport bug fix */
+    //min-height: -webkit-fill-available;
 }
 
 .app-drupal {
