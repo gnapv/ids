@@ -12,9 +12,14 @@
 *,*:before,*:after {
 	box-sizing: border-box;
 	-webkit-touch-callout:none;
-	user-select:none;
+	// user-select:none;
 	-webkit-user-drag:none;
 	outline:0!important
+}
+
+::selection {
+    background-color: $light;
+    color: $secondary;
 }
 
 // FIX IOS input´s

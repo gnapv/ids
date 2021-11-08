@@ -13841,12 +13841,18 @@ strong, b {
 *, *:before, *:after {
   box-sizing: border-box;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
   -webkit-user-drag: none;
   outline: 0 !important;
+}
+
+::-moz-selection {
+  background-color: #D6E7F2;
+  color: #364E5D;
+}
+
+::selection {
+  background-color: #D6E7F2;
+  color: #364E5D;
 }
 
 input, input:before, input:after {
