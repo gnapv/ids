@@ -14,6 +14,15 @@
         height: auto;
     }
 
+    .navbar-nav .nav-item:last-child {
+
+        .nav-link {
+            margin-right:0;
+            padding-right: 0;
+        }
+  
+    } 
+
     .navbar-nav .nav-link   {
         position: relative;
         font-weight: 500;
@@ -22,6 +31,7 @@
         margin-right: 15px;
         transition: all .175s ease-out;
         border-top: 2px solid transparent;
+
 
         &::after{
             content: '';
@@ -70,7 +80,7 @@
 
     .navbar-toggler {
         position: absolute;
-        right: 60px;
+        right: 0;
         top: 10px;
     }
 }

@@ -1,4 +1,43 @@
 
+.language-switcher-language-url {
+    position: absolute;
+    right: 70px;
+    top: 30px;
+
+    .links{
+        color: #ffffff4d;
+    }
+
+    .nav-item{
+        padding: 0px 11px;
+        line-height: 15px;
+
+        &:first-child {
+            border-right: 1px solid;
+        }
+        span {
+            padding: 0;
+            font-size: 15px;
+        }
+        a {
+            font-size: 15px;
+            font-weight: 600;
+        }
+    }
+}
+
+nav.navbar .container {
+    position: relative;
+}
+
+@media (min-width:992px) {
+
+    .language-switcher-language-url {
+        right: 3px;
+        top: 8px;
+    }
+}
+
 
 .voltar-btn {
     position: absolute;
