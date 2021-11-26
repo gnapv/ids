@@ -14623,6 +14623,9 @@ body:lang(en) .product[data-num="2"] {
     font-weight: 600;
     color: #fff !important;
   }
+  .page-node-17 .language-switcher-language-url a, .page-node-18 .language-switcher-language-url a, .page-node-19 .language-switcher-language-url a {
+    color: #091C2B !important;
+  }
 
   .options-sizes {
     width: 140%;
@@ -14659,6 +14662,9 @@ body:lang(en) .product[data-num="2"] {
   .page-node-17 .title-separator::before, .page-node-18 .title-separator::before, .page-node-19 .title-separator::before {
     right: -35px !important;
     top: 5px !important;
+  }
+  .page-node-17 .language-switcher-language-url .nav-item, .page-node-18 .language-switcher-language-url .nav-item, .page-node-19 .language-switcher-language-url .nav-item {
+    padding: 0px 11px;
   }
 
   .paragraph--id--1540 a {

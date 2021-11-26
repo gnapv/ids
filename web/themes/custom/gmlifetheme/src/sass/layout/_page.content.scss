@@ -529,6 +529,11 @@ body:lang(en)  .product[data-num="2"] {
             font-weight: 600;
             color: $white !important;
         }
+    
+        .language-switcher-language-url a {
+            color: #091C2B !important
+        }
+
     }
 
     .options-sizes {
@@ -568,6 +573,9 @@ body:lang(en)  .product[data-num="2"] {
               right: -35px !important;
               top: 5px!important;
             }
+        }
+        .language-switcher-language-url .nav-item {
+            padding: 0px 11px;
         }
     }
 
