@@ -38,6 +38,15 @@ nav.navbar .container {
     }
 }
 
+@media (max-width: 600px) {
+
+    .language-switcher-language-url {
+        right: 60px;
+        .nav-item{
+            padding: 0px 15px;
+        }
+    }
+}
 
 .voltar-btn {
     position: absolute;

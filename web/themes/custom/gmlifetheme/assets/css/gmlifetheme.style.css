@@ -14157,7 +14157,8 @@ body {
   }
 
   .navbar-toggler {
-    right: 30px !important;
+    right: 0px !important;
+    padding-right: 7px;
   }
 }
 @media screen and (max-width: 440px) {
@@ -14211,7 +14212,32 @@ body {
 }
 @media (max-width: 500px) {
   .slider-txt-1 {
-    font-size: calc(1.575rem ) !important;
+    font-size: calc(1.975rem ) !important;
+    padding-left: 20px;
+  }
+
+  .slider-home h4 {
+    padding-left: 30px;
+    font-size: 17px;
+  }
+
+  .dest-quem-somos {
+    align-items: flex-end !important;
+  }
+  .dest-quem-somos h1 {
+    font-size: 24px !important;
+  }
+  .dest-quem-somos p {
+    padding: 0 !important;
+    font-size: 16px;
+    line-height: 20px;
+  }
+  .dest-quem-somos .col-md-10 {
+    padding: 30px 30px 30px 30px !important;
+  }
+
+  .missao p {
+    font-size: 18px;
   }
 }
 .dest-quem-somos {
@@ -14346,6 +14372,10 @@ body {
   animation-direction: reverse;
 }
 
+body:lang(en) .product[data-num="2"] {
+  left: 187px;
+}
+
 @-webkit-keyframes aboutWheelSpin {
   0% {
     transform: rotate(0deg);
@@ -14425,6 +14455,10 @@ body {
 @media (max-width: 500px) {
   .page-node-15 .scroll-down {
     display: none;
+  }
+
+  .dr-emidio p {
+    padding: 0 20px;
   }
 }
 @media (max-width: 450px) {
@@ -14519,6 +14553,9 @@ body {
 .page-node-17 .nav a, .page-node-18 .nav a, .page-node-19 .nav a {
   font-weight: 600;
   color: #091C2B !important;
+}
+.page-node-17 .language-switcher-language-url .links, .page-node-18 .language-switcher-language-url .links, .page-node-19 .language-switcher-language-url .links {
+  color: #091c2b66;
 }
 .page-node-17 .title-separator, .page-node-18 .title-separator, .page-node-19 .title-separator {
   position: relative;
@@ -14623,6 +14660,13 @@ body {
     right: -35px !important;
     top: 5px !important;
   }
+
+  .paragraph--id--1540 a {
+    font-size: 15px;
+  }
+  .paragraph--id--1540 p {
+    font-size: 17px;
+  }
 }
 @media (max-width: 450px) {
   .icons-option {
@@ -14712,6 +14756,14 @@ nav.navbar .container {
   .language-switcher-language-url {
     right: 3px;
     top: 8px;
+  }
+}
+@media (max-width: 600px) {
+  .language-switcher-language-url {
+    right: 60px;
+  }
+  .language-switcher-language-url .nav-item {
+    padding: 0px 15px;
   }
 }
 .voltar-btn {
