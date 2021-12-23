@@ -11,9 +11,10 @@
     .nav-item{
         padding: 0px 11px;
         line-height: 15px;
+        border-right: 1px solid;
 
-        &:first-child {
-            border-right: 1px solid;
+        &:last-child {
+            border-right: none;
         }
         span {
             padding: 0;

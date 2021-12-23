@@ -14376,6 +14376,11 @@ body:lang(en) .product[data-num="2"] {
   left: 187px;
 }
 
+body:lang(it) .product[data-num="2"] {
+  left: 180px;
+  top: 50px;
+}
+
 @-webkit-keyframes aboutWheelSpin {
   0% {
     transform: rotate(0deg);
@@ -14741,9 +14746,10 @@ body:lang(en) .product[data-num="2"] {
 .language-switcher-language-url .nav-item {
   padding: 0px 11px;
   line-height: 15px;
-}
-.language-switcher-language-url .nav-item:first-child {
   border-right: 1px solid;
+}
+.language-switcher-language-url .nav-item:last-child {
+  border-right: none;
 }
 .language-switcher-language-url .nav-item span {
   padding: 0;
