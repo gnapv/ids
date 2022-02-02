@@ -238,6 +238,12 @@ body:lang(it)  .product[data-num="2"] {
     top: 50px;
 }
 
+body:lang(de)  .product[data-num="2"] {
+    left: 175px;
+}
+body:lang(de)  .product[data-num="3"] {
+    left: 325px;
+}
 
   
   @keyframes aboutWheelSpin {
@@ -608,11 +614,13 @@ body:lang(it)  .product[data-num="2"] {
         bottom: 20px;
         max-width: 200px;
     }
-
-
+    .language-switcher-language-url {
+        right: 54px !important;
+        .nav-item {
+            padding: 0px 10px !important;
+        }
+    }   
 }
-
-
 
 
 // Page: Content
@@ -620,11 +628,7 @@ body:lang(it)  .product[data-num="2"] {
 // ----------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
-
-
 .slider-politica {
-
-
     .swiper-container {
         position: fixed !important;
     }
