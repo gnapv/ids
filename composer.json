@@ -33,6 +33,7 @@
         "drupal/link_css": "1.x-dev",
         "drupal/metatag": "^1.16",
         "drupal/paragraphs": "^1.12",
+        "drupal/paragraphs_asymmetric_translation_widgets": "^1.0@beta",
         "drupal/paragraphs_ee": "^1.7",
         "drupal/paragraphs_previewer": "^1.5",
         "drupal/pathauto": "^1.8",
@@ -79,6 +80,14 @@
     },
     "extra": {
         "enable-patching": true,
+        "patches": {
+            "drupal/paragraphs": {
+                "Support asymmetric translation in experimental widget ": "https://www.drupal.org/files/issues/2020-09-25/2904705-115.patch"
+            },
+            "drupal/paragraphs_asymmetric_translation_widgets": {
+                "Support asymmetric translation in experimental widget ": "https://www.drupal.org/files/issues/2020-09-25/3171810-2.patch"
+            }
+        },
         "composer-exit-on-patch-failure": true,
         "patchLevel": {
             "drupal/core": "-p2"
